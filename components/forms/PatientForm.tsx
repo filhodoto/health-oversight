@@ -8,7 +8,8 @@ import { Form } from '@/components/ui/form';
 import CustomFormField, {
   CustomFormFieldProps,
   FormFieldTypes,
-} from '../CustomFormField';
+} from './CustomFormField';
+import SubmitBtn from './SubmitBtn';
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -48,6 +49,10 @@ const PatientForm = () => {
     defaultValues: defaultFormValues,
   });
 
+  const {
+    formState: { isLoading },
+  } = form;
+
   // Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
@@ -69,7 +74,7 @@ const PatientForm = () => {
             {...field}
           />
         ))}
-        <Button type="submit">Submit</Button>
+        <SubmitBtn isLoading={isLoading}>Get Started</SubmitBtn>
       </form>
     </Form>
   );
