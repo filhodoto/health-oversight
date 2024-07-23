@@ -2,21 +2,19 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
+import { z } from 'zod';
 import CustomFormField, {
   CustomFormFieldProps,
   FormFieldTypes,
 } from './CustomFormField';
 import SubmitBtn from './SubmitBtn';
-
-const formSchema = z.object({
-  username: z.string().min(2).max(50),
-});
+import { userFormSchema } from '@/lib/zodValidations';
 
 const defaultFormValues = {
   username: '',
+  email: '',
+  phone: '',
 };
 
 // Array in which each object represents an input for the form
@@ -44,8 +42,8 @@ const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
 
 const PatientForm = () => {
   // Define form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof userFormSchema>>({
+    resolver: zodResolver(userFormSchema),
     defaultValues: defaultFormValues,
   });
 
@@ -54,7 +52,7 @@ const PatientForm = () => {
   } = form;
 
   // Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: z.infer<typeof userFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
