@@ -9,3 +9,5 @@ node_modules
 next-env.d.ts
 next.config.ts
 yarn.lock
+# Ignore all files from ShadCN ui
+components/ui/**/* 
