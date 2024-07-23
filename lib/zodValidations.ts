@@ -12,6 +12,6 @@ export const userFormSchema = z.object({
     // Add a custom validation rule to the schema.
     .refine(
       (value) => /^[+]{1}(?:[0-9-()/.]\s?){6,15}[0-9]{1}$/.test(value),
-      'Invalid phone format'
+      'Invalid phone format',
     ),
 });
