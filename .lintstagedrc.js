@@ -7,4 +7,5 @@ const buildEslintCommand = (filenames) =>
 
 module.exports = {
   '*.{js,jsx,ts,tsx}': [buildEslintCommand],
+  '*.{css,scss,json,md}': ['prettier --write'], // Make sure we ran prettier in files ESLINT does not support
 };
