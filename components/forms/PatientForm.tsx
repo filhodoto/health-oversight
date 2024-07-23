@@ -5,7 +5,10 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import CustomFormField, { CustomFormFieldProps } from '../CustomFormField';
+import CustomFormField, {
+  CustomFormFieldProps,
+  FormFieldTypes,
+} from '../CustomFormField';
 
 const formSchema = z.object({
   username: z.string().min(2).max(50),
@@ -29,6 +32,12 @@ const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
     label: 'Email',
     placeholder: 'example@gmail.com',
     icon: { src: 'assets/icons/email.svg', alt: 'email' },
+  },
+  {
+    name: 'phone',
+    fieldType: FormFieldTypes.PHONE_INPUT,
+    label: 'Phone number',
+    placeholder: '(351) 000 000 000',
   },
 ];
 

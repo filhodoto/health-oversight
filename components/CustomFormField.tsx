@@ -10,6 +10,8 @@ import {
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { Control } from 'react-hook-form';
+import 'react-phone-number-input/style.css';
+import PhoneInput from 'react-phone-number-input';
 
 // By using an enum, we improve code readability, maintainability, and type safety by providing a clear and restricted set of options.
 export enum FormFieldTypes {
@@ -54,31 +56,47 @@ const renderField = ({
     children,
     renderSkeleton,
   } = props;
-  return (
-    <>
-      <div className="flex rounded-md border border-dark-500 bg-dark-400">
-        {icon && (
-          <Image
-            className="ml-2"
-            src={icon.src}
-            height={24}
-            width={24}
-            alt={icon.alt}
-          />
-        )}
-        <FormControl>
-          <Input
-            className="shad-input border-0"
-            type={fieldType}
-            placeholder={placeholder}
-            disabled={disabled}
-            {...field}
-          />
-        </FormControl>
-      </div>
-      {description && <FormDescription>{description}</FormDescription>}
-    </>
-  );
+  switch (fieldType) {
+    case FormFieldTypes.PHONE_INPUT:
+      return (
+        <PhoneInput
+          className="input-phone"
+          defaultCountry="PT"
+          placeholder={placeholder}
+          value={field.value}
+          onChange={field.onChange}
+          withCountryCallingCode
+          international
+        />
+      );
+
+    default:
+      return (
+        <>
+          <div className="flex rounded-md border border-dark-500 bg-dark-400">
+            {icon && (
+              <Image
+                className="ml-2"
+                src={icon.src}
+                height={24}
+                width={24}
+                alt={icon.alt}
+              />
+            )}
+            <FormControl>
+              <Input
+                className="shad-input border-0"
+                type={fieldType}
+                placeholder={placeholder}
+                disabled={disabled}
+                {...field}
+              />
+            </FormControl>
+          </div>
+          {description && <FormDescription>{description}</FormDescription>}
+        </>
+      );
+  }
 };
 
 const CustomFormField = ({
