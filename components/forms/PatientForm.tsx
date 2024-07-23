@@ -44,7 +44,7 @@ const PatientForm = () => {
           <h1 className="header">Welcome</h1>
           <p className="text-dark-700">Start booking your appointments</p>
         </section>
-        Crete a form field for each
+        {/* Create a form field for each */}
         {formFields.map((field, index) => (
           <CustomFormField
             key={`${index}-${field.name}`}

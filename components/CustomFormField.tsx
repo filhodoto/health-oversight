@@ -8,7 +8,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Control, Field } from 'react-hook-form/dist';
+import { Control } from 'react-hook-form';
 
 export enum FormFieldTypes {
   INPUT = 'input',
@@ -35,7 +35,7 @@ const CustomFormField = ({
     <FormField
       control={control}
       name={name}
-      render={({ field }: { field: Field }) => (
+      render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
