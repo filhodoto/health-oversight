@@ -15,12 +15,20 @@ const defaultFormValues = {
   username: '',
 };
 
+// Array in which each object represents an input for the form
 const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
   {
     name: 'username',
     label: 'Username',
-    placeholder: 'Add your username',
+    placeholder: 'John Doe',
     description: 'This is the description for username',
+    icon: { src: 'assets/icons/user.svg', alt: 'user' },
+  },
+  {
+    name: 'email',
+    label: 'Email',
+    placeholder: 'example@gmail.com',
+    icon: { src: 'assets/icons/email.svg', alt: 'email' },
   },
 ];
 
