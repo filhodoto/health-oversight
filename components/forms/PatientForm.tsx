@@ -53,8 +53,11 @@ const PatientForm = () => {
 
   // Define a submit handler.
   function onSubmit(values: z.infer<typeof userFormSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+    try {
+      // Get user values
+      // Store user in DB
+      // Pass user values via router
+    } catch (error) {}
     console.log(values);
   }
   return (
