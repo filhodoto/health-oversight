@@ -1,3 +1,14 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next/core-web-vitals", // Extend the ESLint configuration for Next.js with web-vital rules
+    "prettier", // Extend the Prettier recommended rules
+    "plugin:prettier/recommended" // Enable ESLint plugin for Prettier, integrating Prettier rules with ESLint
+  ],
+  "plugins": ["prettier"], // Use the Prettier plugin to format code according to Prettier rules
+  "rules": {
+    "prettier/prettier": "error" // Treat Prettier style errors as ESLint errors
+  },
+  "ignorePatterns": [
+    "components/ui/**/*" // Ignore all files from ShadCN ui
+  ]
 }

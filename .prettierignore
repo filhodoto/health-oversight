@@ -1,0 +1,13 @@
+# Ignore artifacts:
+build
+coverage
+.next
+.cache
+package-lock.json
+public
+node_modules
+next-env.d.ts
+next.config.ts
+yarn.lock
+# Ignore all files from ShadCN ui
+components/ui/**/* 
