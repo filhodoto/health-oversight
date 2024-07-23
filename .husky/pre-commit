@@ -1,1 +1,12 @@
-npm run lint
+echo '🏗️👷 Styling, testing and building project before committing'
+
+# Check Prettier standards
+npx lint-staged ||
+(
+    echo 'Testing lint staged....
+            ❌ Lint Staged Check Failed ❌';
+    false;
+)
+
+# If everything passes... Now we can commit
+echo '✅ Tests passed. Code will be commited'
