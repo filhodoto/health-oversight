@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 /** Validation for homepage user form */
 export const userFormSchema = z.object({
-  username: z
+  name: z
     .string()
     .min(2, 'Name must be at least 2 characters')
     .max(50, 'Name must be max 50 characters'),

@@ -10,9 +10,10 @@ import CustomFormField, {
 } from './CustomFormField';
 import SubmitBtn from './SubmitBtn';
 import { userFormSchema } from '@/lib/zodValidations';
+import { createUser } from '@/lib/actions/patients';
 
 const defaultFormValues = {
-  username: '',
+  name: '',
   email: '',
   phone: '',
 };
@@ -20,10 +21,10 @@ const defaultFormValues = {
 // Array in which each object represents an input for the form
 const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
   {
-    name: 'username',
-    label: 'Username',
+    name: 'name',
+    label: 'Full Name',
     placeholder: 'John Doe',
-    description: 'This is the description for username',
+    description: 'This is the description for name',
     icon: { src: 'assets/icons/user.svg', alt: 'user' },
   },
   {
@@ -52,7 +53,7 @@ const PatientForm = () => {
   } = form;
 
   // Define a submit handler.
-  function onSubmit(values: z.infer<typeof userFormSchema>) {
+  async function onSubmit(values: z.infer<typeof userFormSchema>) {
     try {
       // Get user values
       // Store user in DB
