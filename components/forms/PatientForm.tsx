@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
 import { z } from 'zod';
@@ -42,6 +43,8 @@ const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
 ];
 
 const PatientForm = () => {
+  const router = useRouter();
+
   // Define form.
   const form = useForm<z.infer<typeof userFormSchema>>({
     resolver: zodResolver(userFormSchema),
@@ -55,11 +58,13 @@ const PatientForm = () => {
   // Define a submit handler.
   async function onSubmit(values: z.infer<typeof userFormSchema>) {
     try {
-      // Get user values
       // Store user in DB
+      const newUser = await createUser(values);
       // Pass user values via router
-    } catch (error) {}
-    console.log(values);
+      // if (newUser) router.push(`/patients/${newUser.$id}/register`);
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <Form {...form}>
@@ -76,6 +81,7 @@ const PatientForm = () => {
             {...field}
           />
         ))}
+        {/* TODO:: This loading is not working */}
         <SubmitBtn isLoading={isLoading}>Get Started</SubmitBtn>
       </form>
     </Form>
