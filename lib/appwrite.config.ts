@@ -1,7 +1,5 @@
 import * as sdk from 'node-appwrite';
 
-// TODO:: This should be declared in a ".d.ts" file but I wasn't abel to make it work so for now I'm putting it here
-
 /*
  * Type environment variables used in the application.
  * This way we ensure type safety and prevent potential runtime errors caused by missing or incorrectly typed
@@ -46,5 +44,5 @@ client
 // Export Appwrite services with typed instances
 export const databases = new sdk.Databases(client); // Database service instance
 export const storage = new sdk.Storage(client); // Storage service instance
-export const Messaging = new sdk.Messaging(client); // Messaging service instance
-export const Users = new sdk.Users(client); // Users service instance
+export const messaging = new sdk.Messaging(client); // Messaging service instance
+export const users = new sdk.Users(client); // Users service instance
