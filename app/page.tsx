@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import PatientForm from '@/components/forms/PatientForm';
 import Link from 'next/link';
+import { ICONS_URL, IMAGES_URL } from '@/constants';
 
 const Home = () => {
   return (
@@ -10,7 +11,7 @@ const Home = () => {
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[496px]">
           <Image
-            src="/assets/icons/logo-full.svg"
+            src={`${ICONS_URL}/logo-full.svg`}
             className="mb-12 h-10 w-fit"
             height={1000}
             width={1000}
@@ -27,7 +28,7 @@ const Home = () => {
         </div>
       </section>
       <Image
-        src="/assets/images/onboarding-img.png"
+        src={`${IMAGES_URL}/onboarding-img.png`}
         className="side-img max-w-[50%]"
         height={1000}
         width={1000}

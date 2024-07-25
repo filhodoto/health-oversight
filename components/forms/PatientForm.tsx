@@ -12,6 +12,7 @@ import CustomFormField, {
 import SubmitBtn from './SubmitBtn';
 import { userFormSchema } from '@/lib/zodValidations';
 import { createUser } from '@/lib/actions/patients';
+import { ICONS_URL } from '@/constants';
 
 const defaultFormValues = {
   name: '',
@@ -26,13 +27,13 @@ const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
     label: 'Full Name',
     placeholder: 'John Doe',
     description: 'This is the description for name',
-    icon: { src: '/assets/icons/user.svg', alt: 'user' },
+    icon: { src: `${ICONS_URL}/user.svg`, alt: 'user' },
   },
   {
     name: 'email',
     label: 'Email',
     placeholder: 'example@gmail.com',
-    icon: { src: '/assets/icons/email.svg', alt: 'email' },
+    icon: { src: `${ICONS_URL}/email.svg`, alt: 'email' },
   },
   {
     name: 'phone',
