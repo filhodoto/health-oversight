@@ -4,16 +4,17 @@ import { ID, Query } from 'node-appwrite';
 import { users } from '../appwrite.config';
 
 // See more in appwrite docs: https://appwrite.io/docs/references/cloud/server-nodejs/users#create
+
+/**
+ * Create a new user with the provided details.
+ *
+ * @param user {CreateUserParams} User creation details.
+ * @returns {User}
+ */
 export const createUser = async (
   user: CreateUserParams,
 ): Promise<User | undefined> => {
   try {
-    /**
-     * Create a new user with the provided details.
-     *
-     * @param user {CreateUserParams} User creation details.
-     * @returns {Promise<User>} Promise resolving to the created user object.
-     */
     const result = await users.create(
       ID.unique(), // Generate a unique user ID
       user.email,
@@ -45,5 +46,21 @@ export const createUser = async (
 
     // Return undefined for other errors (consider throwing an error for specific cases)
     return undefined;
+  }
+};
+
+/**
+ * Get user by id
+ *
+ * @param userId {string} User creation details.
+ * @returns {User}
+ */
+
+export const getUser = async (userId: string): Promise<User | undefined> => {
+  try {
+    const user = await users.get(userId);
+    return user;
+  } catch (error) {
+    console.error('Error getting user:', error);
   }
 };
