@@ -52,7 +52,7 @@ const PatientForm = () => {
   });
 
   const {
-    formState: { isLoading },
+    formState: { isSubmitting },
   } = form;
 
   // Define a submit handler.
@@ -66,6 +66,7 @@ const PatientForm = () => {
       console.log(error);
     }
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-8">
@@ -81,8 +82,7 @@ const PatientForm = () => {
             {...field}
           />
         ))}
-        {/* TODO:: This loading is not working */}
-        <SubmitBtn isLoading={isLoading}>Get Started</SubmitBtn>
+        <SubmitBtn isLoading={isSubmitting}>Get Started</SubmitBtn>
       </form>
     </Form>
   );

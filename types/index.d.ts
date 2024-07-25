@@ -1,4 +1,13 @@
 /* eslint-disable no-unused-vars */
+/*
+ * This file can be used to augment existing type definitions or create custom types for your project.
+ * It is often used for:
+ * - Declaring global variables or interfaces
+ * - Extending built-in types
+ * - Adding types for external libraries that lack type definitions
+ * - Overriding default types
+ * "*.d.ts files are used to provide typescript type information about a module that's written in JavaScript,"
+ */
 
 declare type SearchParamProps = {
   params: { [key: string]: string };
