@@ -63,6 +63,7 @@ const personalFormFields: Omit<CustomFormFieldProps, 'control'>[] = [
     fieldType: FormFieldTypes.DATE_PICKER,
     label: 'Date of Birth',
     placeholder: 'Select your birth date',
+    dateFormat: 'dd/MM/yyyy',
   },
   {
     name: 'gender',
@@ -126,7 +127,7 @@ const RegisterForm = ({ user }: { user: User }) => {
         </section>
         <section className="space-y-6">
           <h2 className="sub-header">Personal Information</h2>
-          <div className="flex flex-col flex-wrap gap-6 border-2 border-red-400 xl:flex-row">
+          <div className="grid gap-6 md:grid-cols-2">
             {personalFormFields.map((field, index) => {
               return (
                 <CustomFormField
@@ -135,7 +136,7 @@ const RegisterForm = ({ user }: { user: User }) => {
                   {...field}
                   // Make sure first input will be full size as per design
                   {...(index === 0 && {
-                    className: 'border-2 border-red-600 flex-1 basis-full;',
+                    className: 'md:col-span-2',
                   })}
                 />
               );
