@@ -37,6 +37,7 @@ export interface CustomFormFieldProps {
   dateFormat?: string;
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode; // Use this to show a loading state for example
+  className?: string;
 }
 
 const renderField = ({
@@ -103,13 +104,13 @@ const CustomFormField = ({
   fieldType = FormFieldTypes.INPUT,
   ...props
 }: CustomFormFieldProps) => {
-  const { control, name, label } = props;
+  const { control, name, label, className } = props;
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex-1">
+        <FormItem className={`flex-1 ${className}`}>
           {/* Make sure we only show label for all inputs that are not type Checkbox */}
           {fieldType !== FormFieldTypes.CHECKBOX && label && (
             <FormLabel>{label}</FormLabel>
