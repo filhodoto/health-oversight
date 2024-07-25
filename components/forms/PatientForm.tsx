@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
 import { z } from 'zod';
@@ -10,9 +11,10 @@ import CustomFormField, {
 } from './CustomFormField';
 import SubmitBtn from './SubmitBtn';
 import { userFormSchema } from '@/lib/zodValidations';
+import { createUser } from '@/lib/actions/patients';
 
 const defaultFormValues = {
-  username: '',
+  name: '',
   email: '',
   phone: '',
 };
@@ -20,10 +22,10 @@ const defaultFormValues = {
 // Array in which each object represents an input for the form
 const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
   {
-    name: 'username',
-    label: 'Username',
+    name: 'name',
+    label: 'Full Name',
     placeholder: 'John Doe',
-    description: 'This is the description for username',
+    description: 'This is the description for name',
     icon: { src: 'assets/icons/user.svg', alt: 'user' },
   },
   {
@@ -41,6 +43,8 @@ const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
 ];
 
 const PatientForm = () => {
+  const router = useRouter();
+
   // Define form.
   const form = useForm<z.infer<typeof userFormSchema>>({
     resolver: zodResolver(userFormSchema),
@@ -48,18 +52,21 @@ const PatientForm = () => {
   });
 
   const {
-    formState: { isLoading },
+    formState: { isSubmitting },
   } = form;
 
   // Define a submit handler.
-  function onSubmit(values: z.infer<typeof userFormSchema>) {
+  async function onSubmit(values: z.infer<typeof userFormSchema>) {
     try {
-      // Get user values
       // Store user in DB
+      const newUser = await createUser(values);
       // Pass user values via router
-    } catch (error) {}
-    console.log(values);
+      // if (newUser) router.push(`/patients/${newUser.$id}/register`);
+    } catch (error) {
+      console.log(error);
+    }
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-8">
@@ -75,7 +82,7 @@ const PatientForm = () => {
             {...field}
           />
         ))}
-        <SubmitBtn isLoading={isLoading}>Get Started</SubmitBtn>
+        <SubmitBtn isLoading={isSubmitting}>Get Started</SubmitBtn>
       </form>
     </Form>
   );
