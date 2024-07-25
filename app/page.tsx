@@ -16,6 +16,7 @@ const Home = () => {
             width={1000}
             alt="logo"
           />
+          {/* Used to Authenticate the User, NOT to register it */}
           <PatientForm />
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="justify">© 2024 Health Oversight</p>

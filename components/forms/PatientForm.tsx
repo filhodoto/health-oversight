@@ -26,13 +26,13 @@ const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
     label: 'Full Name',
     placeholder: 'John Doe',
     description: 'This is the description for name',
-    icon: { src: 'assets/icons/user.svg', alt: 'user' },
+    icon: { src: '/assets/icons/user.svg', alt: 'user' },
   },
   {
     name: 'email',
     label: 'Email',
     placeholder: 'example@gmail.com',
-    icon: { src: 'assets/icons/email.svg', alt: 'email' },
+    icon: { src: '/assets/icons/email.svg', alt: 'email' },
   },
   {
     name: 'phone',
@@ -42,6 +42,7 @@ const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
   },
 ];
 
+/* This form is used to Authenticate the User, but not to register it */
 const PatientForm = () => {
   const router = useRouter();
 
@@ -60,8 +61,8 @@ const PatientForm = () => {
     try {
       // Store user in DB
       const newUser = await createUser(values);
-      // Pass user values via router
-      // if (newUser) router.push(`/patients/${newUser.$id}/register`);
+      // Pass user values via router and navigate user
+      if (newUser) router.push(`/patients/${newUser.$id}/register`);
     } catch (error) {
       console.log(error);
     }
