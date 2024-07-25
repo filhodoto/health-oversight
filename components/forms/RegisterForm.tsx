@@ -115,7 +115,7 @@ const RegisterForm = ({ user }: { user: User }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex-1 space-y-12 border-2 border-green-300"
+        className="flex-1 space-y-12"
       >
         <section className="mb-12 space-y-4">
           <h1 className="header">

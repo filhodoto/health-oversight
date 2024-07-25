@@ -10,8 +10,12 @@ import {
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { Control } from 'react-hook-form';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
+import { ICONS_URL } from '@/constants';
 
 // By using an enum, we improve code readability, maintainability, and type safety by providing a clear and restricted set of options.
 export enum FormFieldTypes {
@@ -35,6 +39,7 @@ export interface CustomFormFieldProps {
   icon?: { src: string; alt: string };
   disabled?: boolean;
   dateFormat?: string;
+  showTimeSelect?: boolean;
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode; // Use this to show a loading state for example
   className?: string;
@@ -55,9 +60,33 @@ const renderField = ({
     disabled,
     dateFormat,
     children,
+    showTimeSelect = false,
     renderSkeleton,
   } = props;
+
   switch (fieldType) {
+    case FormFieldTypes.DATE_PICKER:
+      return (
+        <div className="flex rounded-md border border-dark-500 bg-dark-400">
+          <Image
+            className="ml-2"
+            src={`${ICONS_URL}/calendar.svg`}
+            height={24}
+            width={24}
+            alt="calendar"
+          />
+          <FormControl>
+            <DatePicker
+              wrapperClassName="date-picker"
+              selected={field.value}
+              onChange={(date) => field.onChange(date)}
+              showTimeSelect={showTimeSelect}
+              timeInputLabel="Time:"
+              {...(dateFormat && { dateFormat })}
+            />
+          </FormControl>
+        </div>
+      );
     case FormFieldTypes.PHONE_INPUT:
       return (
         <PhoneInput
@@ -105,12 +134,13 @@ const CustomFormField = ({
   ...props
 }: CustomFormFieldProps) => {
   const { control, name, label, className } = props;
+
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={`flex-1 ${className}`}>
+        <FormItem className={`flex-1 ${className ?? ''}`}>
           {/* Make sure we only show label for all inputs that are not type Checkbox */}
           {fieldType !== FormFieldTypes.CHECKBOX && label && (
             <FormLabel>{label}</FormLabel>
