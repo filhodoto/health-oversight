@@ -11,17 +11,38 @@ import Image from 'next/image';
 // Array in which each object represents an input for the form
 const medicalFormFields: Omit<CustomFormFieldProps, 'control'>[] = [
   {
-    name: 'name',
-    label: 'Full Name',
-    placeholder: 'John Doe',
-    description: 'This is the description for name',
-    icon: { src: `${ICONS_URL}/user.svg`, alt: 'user' },
+    name: 'insuranceProvider',
+    label: 'Insurance Provider',
+    placeholder: 'ex: AdvanceCare',
   },
   {
-    name: 'email',
-    label: 'Email',
-    placeholder: 'example@gmail.com',
-    icon: { src: `${ICONS_URL}/email.svg`, alt: 'email' },
+    name: 'insurancePolicyNumber',
+    label: 'Insurance Policy Number',
+    placeholder: 'ex: AGBb345222',
+  },
+  {
+    fieldType: FormFieldTypes.TEXTAREA,
+    name: 'allergies',
+    label: 'Allergies',
+    placeholder: 'ex: bullshit',
+  },
+  {
+    fieldType: FormFieldTypes.TEXTAREA,
+    name: 'currentMedication',
+    label: 'Current Medication',
+    placeholder: 'ex: Paracetamol',
+  },
+  {
+    fieldType: FormFieldTypes.TEXTAREA,
+    name: 'familyMedicalHistory',
+    label: 'Family medical history',
+    placeholder: 'ex: Diabetes on both sides',
+  },
+  {
+    fieldType: FormFieldTypes.TEXTAREA,
+    name: 'pastMedicalHistory',
+    label: 'Past medical history',
+    placeholder: 'ex: Broke a knee saving the world',
   },
 ];
 
