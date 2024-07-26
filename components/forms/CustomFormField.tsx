@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select';
+import { Textarea } from '../ui/textarea';
 
 // By using an enum, we improve code readability, maintainability, and type safety by providing a clear and restricted set of options.
 export enum FormFieldTypes {
@@ -80,7 +81,7 @@ const renderField = ({
             </SelectTrigger>
             <SelectContent className="shad-select-content">
               {/* This is what we defined inside <CustomFormField> */}
-              {props.children}
+              {children}
             </SelectContent>
           </Select>
         </FormControl>
@@ -112,15 +113,29 @@ const renderField = ({
 
     case FormFieldTypes.PHONE_INPUT:
       return (
-        <PhoneInput
-          className="input-phone"
-          defaultCountry="PT"
-          placeholder={placeholder}
-          value={field.value}
-          onChange={field.onChange}
-          withCountryCallingCode
-          international
-        />
+        <FormControl>
+          <PhoneInput
+            className="input-phone"
+            defaultCountry="PT"
+            placeholder={placeholder}
+            value={field.value}
+            onChange={field.onChange}
+            withCountryCallingCode
+            international
+          />
+        </FormControl>
+      );
+
+    case FormFieldTypes.TEXTAREA:
+      return (
+        <FormControl>
+          <Textarea
+            placeholder={placeholder}
+            disabled={disabled}
+            {...field}
+            className="shad-textArea"
+          />
+        </FormControl>
       );
 
     default:
