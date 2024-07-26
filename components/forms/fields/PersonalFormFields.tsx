@@ -13,8 +13,12 @@ import { Control } from 'react-hook-form';
 export const groupFieldsInPairs = (
   fields: Omit<CustomFormFieldProps, 'control'>[],
 ) => {
+  // Groups an array of fields into pairs of two.
+  // The last element might be a single element array if the total number of fields is odd.
+
   const pairs = [];
-  for (let i = 1; i < fields.length - 1; i += 2) {
+  for (let i = 0; i < fields.length; i += 2) {
+    // Slice the array into pairs of two, starting from index i
     pairs.push(fields.slice(i, i + 2));
   }
   return pairs;
@@ -35,13 +39,6 @@ const renderRadioGroupOptions = (options: string[]) => {
 
 // Array in which each object represents an input for the form
 const personalFormFields: Omit<CustomFormFieldProps, 'control'>[] = [
-  {
-    name: 'name',
-    label: 'Full Name',
-    placeholder: 'John Doe',
-    description: 'This is the description for name',
-    icon: { src: `${ICONS_URL}/user.svg`, alt: 'user' },
-  },
   {
     name: 'email',
     label: 'Email',
@@ -104,8 +101,15 @@ const personalFormFields: Omit<CustomFormFieldProps, 'control'>[] = [
 const PersonalFormFields = ({ formControl }: { formControl: Control<any> }) => {
   return (
     <>
-      {/* NAME INPUT BECAUSE IT NEEDS TO BE FULL WIDTH */}
-      <CustomFormField control={formControl} {...personalFormFields[0]} />
+      {/* Set "name" here because it needs to be full width */}
+      <CustomFormField
+        control={formControl}
+        name="name"
+        label="Full Name"
+        placeholder="John Doe"
+        description="This is the description for name"
+        icon={{ src: `${ICONS_URL}/user.svg`, alt: 'user' }}
+      />
 
       {/* Create div for each pair of elements in our personalFormFields object */}
       {groupFieldsInPairs(personalFormFields).map((pair, index) => (
