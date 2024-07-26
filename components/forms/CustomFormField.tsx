@@ -16,6 +16,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'react-phone-number-input/style.css';
 import PhoneInput from 'react-phone-number-input';
 import { ICONS_URL } from '@/constants';
+import {
+  Select,
+  SelectContent,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
 
 // By using an enum, we improve code readability, maintainability, and type safety by providing a clear and restricted set of options.
 export enum FormFieldTypes {
@@ -65,6 +71,20 @@ const renderField = ({
   } = props;
 
   switch (fieldType) {
+    case FormFieldTypes.SELECT:
+      return (
+        <FormControl>
+          <Select onValueChange={field.change} defaultValue={field.value}>
+            <SelectTrigger className="shad-select-trigger">
+              <SelectValue placeholder={placeholder} />
+            </SelectTrigger>
+            <SelectContent className="shad-select-content">
+              {/* This is what we defined inside <CustomFormField> */}
+              {props.children}
+            </SelectContent>
+          </Select>
+        </FormControl>
+      );
     case FormFieldTypes.SKELETON:
       return renderSkeleton ? renderSkeleton(field) : null;
     case FormFieldTypes.DATE_PICKER:
@@ -89,6 +109,7 @@ const renderField = ({
           </FormControl>
         </div>
       );
+
     case FormFieldTypes.PHONE_INPUT:
       return (
         <PhoneInput

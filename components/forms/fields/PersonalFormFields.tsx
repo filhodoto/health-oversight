@@ -9,6 +9,7 @@ import { Label } from '../../ui/label';
 import { Control } from 'react-hook-form';
 
 // Helper function to group the fields into pairs, so we can use it to prevent duplication
+// TODO:: This should be moved to a utils/helper file
 export const groupFieldsInPairs = (
   fields: Omit<CustomFormFieldProps, 'control'>[],
 ) => {
@@ -19,7 +20,6 @@ export const groupFieldsInPairs = (
   return pairs;
 };
 
-// TODO:: Move this to a utils file
 const renderRadioGroupOptions = (options: string[]) => {
   return options.map((option, index) => {
     return (

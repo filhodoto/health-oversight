@@ -10,6 +10,7 @@ import SubmitBtn from './SubmitBtn';
 import { userFormSchema } from '@/lib/zodValidations';
 import { createUser } from '@/lib/actions/patients';
 import PersonalFormFields from './fields/PersonalFormFields';
+import MedicalFormFields from './fields/MedicalFormFields';
 
 const defaultFormValues = {
   name: '',
@@ -62,6 +63,7 @@ const RegisterForm = ({ user }: { user: User }) => {
         </section>
         <section className="space-y-6">
           <h2 className="sub-header">Medical Information</h2>
+          <MedicalFormFields formControl={form.control} />
         </section>
         <section className="space-y-6">
           <h2 className="sub-header">Identification and Verification</h2>
