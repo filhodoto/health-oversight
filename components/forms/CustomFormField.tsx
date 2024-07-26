@@ -34,7 +34,7 @@ export interface CustomFormFieldProps {
   label?: string;
   fieldType?: FormFieldTypes;
   name: string;
-  placeholder: string;
+  placeholder?: string;
   description?: string;
   icon?: { src: string; alt: string };
   disabled?: boolean;
@@ -65,6 +65,8 @@ const renderField = ({
   } = props;
 
   switch (fieldType) {
+    case FormFieldTypes.SKELETON:
+      return renderSkeleton ? renderSkeleton(field) : null;
     case FormFieldTypes.DATE_PICKER:
       return (
         <div className="flex rounded-md border border-dark-500 bg-dark-400">

@@ -24,14 +24,13 @@ const defaultFormValues = {
 
 // TODO:: Move this to a utils file
 const renderRadioGroupOptions = (options: string[]) => {
-  return options.map((option) => {
+  return options.map((option, index) => {
     return (
-      <div key={option} className="radio-group">
-        <RadioGroupItem value={option} id={option}>
-          <Label htmlFor={option} className="cursor-pointer">
-            {option}
-          </Label>
-        </RadioGroupItem>
+      <div key={option + index} className="radio-group">
+        <RadioGroupItem value={option} id={option} />
+        <Label htmlFor={option} className="cursor-pointer">
+          {option}
+        </Label>
       </div>
     );
   });
@@ -68,13 +67,12 @@ const personalFormFields: Omit<CustomFormFieldProps, 'control'>[] = [
   {
     name: 'gender',
     fieldType: FormFieldTypes.SKELETON,
-    label: 'Select gender',
-    placeholder: 'Select your birth date',
+    label: 'Gender',
     renderSkeleton: (field) => {
       return (
         <FormControl>
           <RadioGroup
-            className="flex h-11 gap-6 xl:justify-between"
+            className="m-h-11 flex flex-wrap gap-6 xl:justify-between"
             onValueChange={field.onChange}
             defaultValue={field.value}
           >
