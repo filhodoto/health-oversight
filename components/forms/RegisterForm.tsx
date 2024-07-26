@@ -36,6 +36,17 @@ const renderRadioGroupOptions = (options: string[]) => {
   });
 };
 
+// Helper function to group the fields into pairs, so we can use it to prevent duplication
+const groupFieldsInPairs = (
+  fields: Omit<CustomFormFieldProps, 'control'>[],
+) => {
+  const pairs = [];
+  for (let i = 1; i < fields.length - 1; i += 2) {
+    pairs.push(fields.slice(i, i + 2));
+  }
+  return pairs;
+};
+
 // Array in which each object represents an input for the form
 const personalFormFields: Omit<CustomFormFieldProps, 'control'>[] = [
   {
@@ -72,7 +83,7 @@ const personalFormFields: Omit<CustomFormFieldProps, 'control'>[] = [
       return (
         <FormControl>
           <RadioGroup
-            className="m-h-11 flex flex-wrap gap-6 xl:justify-between"
+            className="flex h-11 gap-6 xl:justify-between"
             onValueChange={field.onChange}
             defaultValue={field.value}
           >
@@ -81,6 +92,26 @@ const personalFormFields: Omit<CustomFormFieldProps, 'control'>[] = [
         </FormControl>
       );
     },
+  },
+  {
+    name: 'address',
+    label: 'Address',
+    placeholder: 'ex: Rua do sitio da varzea',
+  },
+  {
+    name: 'occupation',
+    label: 'Occupation',
+    placeholder: 'Wood worker',
+  },
+  {
+    name: 'emergencyContactName',
+    label: 'Emergency Contact Name',
+  },
+  {
+    name: 'emergencyContactNumber',
+    fieldType: FormFieldTypes.PHONE_INPUT,
+    label: 'Emergency contact number',
+    placeholder: '(351) 000 000 000',
   },
 ];
 
@@ -125,21 +156,21 @@ const RegisterForm = ({ user }: { user: User }) => {
         </section>
         <section className="space-y-6">
           <h2 className="sub-header">Personal Information</h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            {personalFormFields.map((field, index) => {
-              return (
+          {/* NAME INPUT BECAUSE IT NEEDS TO BE FULL WIDTH */}
+          <CustomFormField control={form.control} {...personalFormFields[0]} />
+
+          {/* Create div for each pair of elements in our personalFormFields object */}
+          {groupFieldsInPairs(personalFormFields).map((pair, index) => (
+            <div key={index} className="flex flex-col gap-6 xl:flex-row">
+              {pair.map((field) => (
                 <CustomFormField
-                  key={`${index}-${field.name}`}
+                  key={field.name}
                   control={form.control}
                   {...field}
-                  // Make sure first input will be full size as per design
-                  {...(index === 0 && {
-                    className: 'md:col-span-2',
-                  })}
                 />
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          ))}
         </section>
         <section className="space-y-6">
           <h2 className="sub-header">Medical Information</h2>
