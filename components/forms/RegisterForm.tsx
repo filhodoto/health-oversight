@@ -12,6 +12,7 @@ import { createUser } from '@/lib/actions/patients';
 import PersonalFormFields from './fields/PersonalFormFields';
 import MedicalFormFields from './fields/MedicalFormFields';
 import IdentificationFormFields from './fields/IdentificationFormFields';
+import CustomFormField, { FormFieldTypes } from './CustomFormField';
 
 const defaultFormValues = {
   name: '',
@@ -70,7 +71,27 @@ const RegisterForm = ({ user }: { user: User }) => {
           <h2 className="sub-header">Identification and Verification</h2>
           <IdentificationFormFields formControl={form.control} />
         </section>
-
+        <section className="space-y-6">
+          <h2 className="sub-header">Consent and Privacy</h2>
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldTypes.CHECKBOX}
+            name="treatmentConsent"
+            label="I consent to treatment"
+          />
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldTypes.CHECKBOX}
+            name="disclosureConsent"
+            label="I consent to disclosure of information"
+          />
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldTypes.CHECKBOX}
+            name="privacyConsent"
+            label="I consent to privacy policy"
+          />
+        </section>
         <SubmitBtn isLoading={isSubmitting}>Get Started</SubmitBtn>
       </form>
     </Form>

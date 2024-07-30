@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from '../ui/select';
 import { Textarea } from '../ui/textarea';
+import { Checkbox } from '../ui/checkbox';
 
 // By using an enum, we improve code readability, maintainability, and type safety by providing a clear and restricted set of options.
 export enum FormFieldTypes {
@@ -69,6 +70,8 @@ const renderField = ({
     children,
     showTimeSelect = false,
     renderSkeleton,
+    label,
+    name,
   } = props;
 
   switch (fieldType) {
@@ -135,6 +138,22 @@ const renderField = ({
             {...field}
             className="shad-textArea"
           />
+        </FormControl>
+      );
+
+    case FormFieldTypes.CHECKBOX:
+      return (
+        <FormControl>
+          <div className="flex items-center gap-4">
+            <Checkbox
+              id={name}
+              checked={field.value}
+              onCheckedChange={field.onChange}
+            />
+            <label htmlFor="name" className="checkbox-label">
+              {label}
+            </label>
+          </div>
         </FormControl>
       );
 
