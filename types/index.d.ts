@@ -22,6 +22,7 @@ declare interface CreateUserParams {
   email: string;
   phone: string;
 }
+// Add id key created by Appwrite when we add user to database
 declare interface User extends CreateUserParams {
   $id: string;
 }

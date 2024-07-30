@@ -1,7 +1,18 @@
 'use server';
 
 import { ID, Query } from 'node-appwrite';
-import { users } from '../appwrite.config';
+import { InputFile } from 'node-appwrite/file';
+import {
+  BUCKET_ID,
+  DATABASE_ID,
+  databases,
+  ENDPOINT,
+  PATIENT_CL_ID,
+  PROJECT_ID,
+  storage,
+  users,
+} from '../appwrite.config';
+import { parseStringify } from '../utils';
 
 // See more in appwrite docs: https://appwrite.io/docs/references/cloud/server-nodejs/users#create
 
@@ -55,12 +66,67 @@ export const createUser = async (
  * @param userId {string} User creation details.
  * @returns {User}
  */
-
 export const getUser = async (userId: string): Promise<User | undefined> => {
   try {
     const user = await users.get(userId);
     return user;
   } catch (error) {
     console.error('Error getting user:', error);
+  }
+};
+
+/**
+ * Register patient
+ *
+ * @param userId {string} User creation details.
+ * @returns {User}
+ */
+export const registerPatient = async ({
+  identificationDocument,
+  ...patient
+}: RegisterUserParams): Promise<RegisterUserParams | undefined> => {
+  try {
+    // Upload file to appwrite storage
+    let file;
+
+    // 1. If user passed identification document, we need to store it in Appwrite storage
+    // NOTE:: We do this before we create patient because when we create a patient we need to get the image, which means it needs to exist in our storage when we try to get
+    if (identificationDocument) {
+      const inputFile = InputFile.fromBuffer(
+        identificationDocument?.get('blobFile') as Blob,
+        identificationDocument?.get('fileName') as string,
+      );
+
+      /**
+       * Create file in Appwrite storage
+       *
+       * @param bucketId {string}. Storage bucket unique ID
+       * @param fileId {string}. Choose a custom ID or generate a random ID with ID.unique()
+       * @param file {string}. Binary file
+       * @returns {File}
+       *
+       * See more here: https://appwrite.io/docs/references/cloud/client-web/storage#createFile
+       */
+      file = await storage.createFile(BUCKET_ID, ID.unique(), inputFile);
+    }
+
+    // 2. Create new patient document
+    const newPatient = await databases.createDocument(
+      DATABASE_ID,
+      PATIENT_CL_ID,
+      ID.unique(),
+      {
+        ...patient,
+        // If file exists we pass file values
+        ...(file && {
+          identificationDocumentId: file.$id,
+          // The url of the document we created above
+          identificationDocumentUrl: `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file?.$id}/view?project=${PROJECT_ID}`,
+        }),
+      },
+    );
+    return parseStringify(newPatient);
+  } catch (error) {
+    console.error('Error registering patient:', error);
   }
 };

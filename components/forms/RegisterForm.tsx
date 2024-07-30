@@ -8,7 +8,7 @@ import { z } from 'zod';
 
 import SubmitBtn from './SubmitBtn';
 import { PatientFormSchema } from '@/lib/zodValidations';
-import { createUser } from '@/lib/actions/patients';
+import { registerPatient } from '@/lib/actions/patients';
 import PersonalFormFields from './fields/PersonalFormFields';
 import MedicalFormFields from './fields/MedicalFormFields';
 import IdentificationFormFields from './fields/IdentificationFormFields';
@@ -19,7 +19,7 @@ const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
 
   // Define form.
-  const form = useForm<z.infer<typeof PatientFormSchema>>({
+  const form = useForm({
     resolver: zodResolver(PatientFormSchema),
     defaultValues: PATIENT_FORM_DEFAULT_VALUES,
   });
@@ -30,11 +30,44 @@ const RegisterForm = ({ user }: { user: User }) => {
 
   // Define a submit handler.
   async function onSubmit(values: z.infer<typeof PatientFormSchema>) {
+    const { identificationDocument } = values;
+
+    // Create a new FormData object to hold the file data
+    let documentFormData;
+
+    // Check if user passed a document file and create a new formData with document info
+    if (identificationDocument && identificationDocument[0]) {
+      // Extract the file info from the identificationDocument array
+      const doc = identificationDocument[0];
+
+      // Create blob file so browser can understand the file information.
+      // Blobs are browser objects representing raw file or data
+      const blobFile = new Blob([doc], {
+        type: doc.type, // ex: "image/png"
+      });
+
+      documentFormData = new FormData();
+      // Append the Blob object as 'blobFile' to the FormData
+      documentFormData.append('blobFile', blobFile);
+      // Append the original file name as 'fileName' to the FormData
+      documentFormData.append('fileName', doc.name);
+    }
+
     try {
-      // Store user in DB
-      const newUser = await createUser(values);
-      // Pass user values via router and navigate user
-      if (newUser) router.push(`/patients/${newUser.$id}/register`);
+      // Create object with patient data to send to appwrite DB
+      const patientData = {
+        ...values,
+        id: user.$id, // user id from appwrite uses "$id"
+        // Convert string value into date.
+        // By converting it to a Date object, we ensure that the data is in a suitable format for database storage
+        birthDate: new Date(values.birthDate),
+        identificationDocument: documentFormData,
+      };
+      // Store patient in DB
+      // TODO:: FIX this types error
+      const patient = await registerPatient(patientData);
+      // Navigate user to book appointments page
+      // if (patient) router.push(`/patients/${user.$id}/new-appointment`);
     } catch (error) {
       console.log(error);
     }
