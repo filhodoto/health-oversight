@@ -4,9 +4,9 @@ export const APP_NAME = 'Health Oversight';
 export const ICONS_URL = '/assets/icons';
 export const IMAGES_URL = '/assets/images';
 
-const MALE = 'Male';
-const FEMALE = 'Female';
-const OTHER = 'Other';
+export const MALE = 'Male';
+export const FEMALE = 'Female';
+export const OTHER = 'Other';
 
 export const GENDER_OPTIONS = [MALE, FEMALE, OTHER];
 
