@@ -11,8 +11,10 @@ export const OTHER = 'Other';
 export const GENDER_OPTIONS = [MALE, FEMALE, OTHER];
 
 export const PATIENT_FORM_DEFAULT_VALUES = {
+  // TODO:: Not sure if we need firstName and lastName here
   firstName: '',
   lastName: '',
+  name: '',
   email: '',
   phone: '',
   birthDate: new Date(Date.now()),

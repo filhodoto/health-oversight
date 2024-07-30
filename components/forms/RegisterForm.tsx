@@ -7,26 +7,21 @@ import { Form, FormControl } from '@/components/ui/form';
 import { z } from 'zod';
 
 import SubmitBtn from './SubmitBtn';
-import { userFormSchema } from '@/lib/zodValidations';
+import { PatientFormSchema } from '@/lib/zodValidations';
 import { createUser } from '@/lib/actions/patients';
 import PersonalFormFields from './fields/PersonalFormFields';
 import MedicalFormFields from './fields/MedicalFormFields';
 import IdentificationFormFields from './fields/IdentificationFormFields';
 import CustomFormField, { FormFieldTypes } from './CustomFormField';
-
-const defaultFormValues = {
-  name: '',
-  email: '',
-  phone: '',
-};
+import { PATIENT_FORM_DEFAULT_VALUES } from '@/constants';
 
 const RegisterForm = ({ user }: { user: User }) => {
   const router = useRouter();
 
   // Define form.
-  const form = useForm<z.infer<typeof userFormSchema>>({
-    resolver: zodResolver(userFormSchema),
-    defaultValues: defaultFormValues,
+  const form = useForm<z.infer<typeof PatientFormSchema>>({
+    resolver: zodResolver(PatientFormSchema),
+    defaultValues: PATIENT_FORM_DEFAULT_VALUES,
   });
 
   const {
@@ -34,7 +29,7 @@ const RegisterForm = ({ user }: { user: User }) => {
   } = form;
 
   // Define a submit handler.
-  async function onSubmit(values: z.infer<typeof userFormSchema>) {
+  async function onSubmit(values: z.infer<typeof PatientFormSchema>) {
     try {
       // Store user in DB
       const newUser = await createUser(values);

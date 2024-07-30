@@ -10,7 +10,7 @@ import CustomFormField, {
   FormFieldTypes,
 } from './CustomFormField';
 import SubmitBtn from './SubmitBtn';
-import { userFormSchema } from '@/lib/zodValidations';
+import { UserFormSchema } from '@/lib/zodValidations';
 import { createUser } from '@/lib/actions/patients';
 import { ICONS_URL } from '@/constants';
 
@@ -48,8 +48,8 @@ const PatientForm = () => {
   const router = useRouter();
 
   // Define form.
-  const form = useForm<z.infer<typeof userFormSchema>>({
-    resolver: zodResolver(userFormSchema),
+  const form = useForm<z.infer<typeof UserFormSchema>>({
+    resolver: zodResolver(UserFormSchema),
     defaultValues: defaultFormValues,
   });
 
@@ -58,7 +58,7 @@ const PatientForm = () => {
   } = form;
 
   // Define a submit handler.
-  async function onSubmit(values: z.infer<typeof userFormSchema>) {
+  async function onSubmit(values: z.infer<typeof UserFormSchema>) {
     try {
       // Store user in DB
       const newUser = await createUser(values);
