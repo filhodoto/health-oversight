@@ -1,5 +1,5 @@
 import RegisterForm from '@/components/forms/RegisterForm';
-import { ICONS_URL, IMAGES_URL } from '@/constants';
+import { APP_NAME, ICONS_URL, IMAGES_URL } from '@/constants';
 import { getUser } from '@/lib/actions/patients';
 import Image from 'next/image';
 
@@ -18,7 +18,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
           />
           {/* Used to Register user, NOT authenticate */}
           {user && <RegisterForm user={user} />}
-          <p className="copyright py-12">© 2024 CarePluse</p>
+          <p className="copyright py-12">© 2024 {APP_NAME}</p>
         </div>
       </section>
       <Image

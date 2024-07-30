@@ -1,3 +1,5 @@
+export const APP_NAME = 'Health Oversight';
+
 // URL shortcuts
 export const ICONS_URL = '/assets/icons';
 export const IMAGES_URL = '/assets/images';
