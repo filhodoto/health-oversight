@@ -49,7 +49,7 @@ const medicalFormFields: Omit<CustomFormFieldProps, 'control'>[] = [
 const MedicalFormFields = ({ formControl }: { formControl: Control<any> }) => {
   return (
     <>
-      {/* primary care doctor here because it needs to be full width */}
+      {/* Primary care doctor here because it needs to be full width */}
       <CustomFormField
         fieldType={FormFieldTypes.SELECT}
         control={formControl}
@@ -57,7 +57,7 @@ const MedicalFormFields = ({ formControl }: { formControl: Control<any> }) => {
         label="Primary Care Doctor"
         placeholder="Choose your doctor"
       >
-        {/* This will be shown as props.childrned inside our FormControl */}
+        {/* This will be shown as props.children inside our FormControl */}
         {DOCTORS.map((doctor) => (
           <SelectItem key={doctor.name} value={doctor.name}>
             <div className="flex cursor-pointer items-center gap-2">
