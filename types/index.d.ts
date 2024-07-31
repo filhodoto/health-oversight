@@ -38,12 +38,12 @@ declare interface RegisterUserParams extends CreateUserParams {
   primaryPhysician: string;
   insuranceProvider: string;
   insurancePolicyNumber: string;
-  allergies: string | undefined;
-  currentMedication: string | undefined;
-  familyMedicalHistory: string | undefined;
-  pastMedicalHistory: string | undefined;
-  identificationType: string | undefined;
-  identificationNumber: string | undefined;
+  allergies?: string;
+  currentMedication?: string;
+  familyMedicalHistory?: string;
+  pastMedicalHistory?: string;
+  identificationType?: string;
+  identificationNumber?: string;
   identificationDocument: FormData | undefined;
   privacyConsent: boolean;
 }

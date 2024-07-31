@@ -57,17 +57,17 @@ const RegisterForm = ({ user }: { user: User }) => {
       // Create object with patient data to send to appwrite DB
       const patientData = {
         ...values,
-        id: user.$id, // user id from appwrite uses "$id"
+        userId: user.$id, // user id from appwrite uses "$id"
         // Convert string value into date.
         // By converting it to a Date object, we ensure that the data is in a suitable format for database storage
         birthDate: new Date(values.birthDate),
         identificationDocument: documentFormData,
       };
+
       // Store patient in DB
-      // TODO:: FIX this types error
       const patient = await registerPatient(patientData);
       // Navigate user to book appointments page
-      // if (patient) router.push(`/patients/${user.$id}/new-appointment`);
+      if (patient) router.push(`/patients/${user.$id}/new-appointment`);
     } catch (error) {
       console.log(error);
     }
