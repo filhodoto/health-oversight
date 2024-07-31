@@ -12,15 +12,14 @@ import {
   storage,
   users,
 } from '../appwrite.config';
-import { parseStringify } from '../utils';
-
-// See more in appwrite docs: https://appwrite.io/docs/references/cloud/server-nodejs/users#create
+import { isBlob, parseStringify } from '../utils';
 
 /**
  * Create a new user with the provided details.
  *
  * @param user {CreateUserParams} User creation details.
  * @returns {User}
+ * See more in appwrite docs: https://appwrite.io/docs/references/cloud/server-nodejs/users#create
  */
 export const createUser = async (
   user: CreateUserParams,
@@ -92,8 +91,21 @@ export const registerPatient = async ({
     // 1. If user passed identification document, we need to store it in Appwrite storage
     // NOTE:: We do this before we create patient because when we create a patient we need to get the image, which means it needs to exist in our storage when we try to get
     if (identificationDocument) {
+      console.log('identificationDocument >>> ', identificationDocument);
+
+      // Get the Blob object from the identificationDocument
+      const blob = identificationDocument?.get('blobFile');
+
+      // Make sure we have a blob type of file in identificationDocument
+      if (!blob || !isBlob(blob)) throw new Error('Blob file was not found');
+
+      // !! Transform blob into buffer so we can use it and fix "TypeError [ERR_INVALID_STATE]" error
+      // !! See solution here: https://github.com/adrianhajdin/healthcare/issues/32
+      const bufferFile = await blob.arrayBuffer();
+
       const inputFile = InputFile.fromBuffer(
-        identificationDocument?.get('blobFile') as Blob,
+        // @ts-ignore
+        bufferFile, // !! Typescript is correct in complaining. However at the moment Blob does not work so for now we keep it like this
         identificationDocument?.get('fileName') as string,
       );
 
@@ -102,7 +114,7 @@ export const registerPatient = async ({
        *
        * @param bucketId {string}. Storage bucket unique ID
        * @param fileId {string}. Choose a custom ID or generate a random ID with ID.unique()
-       * @param file {string}. Binary file
+       * @param file {File}. Binary file
        * @returns {File}
        *
        * See more here: https://appwrite.io/docs/references/cloud/client-web/storage#createFile

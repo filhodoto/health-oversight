@@ -81,3 +81,8 @@ export function encryptKey(passkey: string) {
 export function decryptKey(passkey: string) {
   return atob(passkey);
 }
+
+// Helper function to know if value is Blob type
+export function isBlob(value: unknown): value is Blob {
+  return value instanceof Blob;
+}

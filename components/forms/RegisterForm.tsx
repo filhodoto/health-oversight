@@ -29,7 +29,7 @@ const RegisterForm = ({ user }: { user: User }) => {
   } = form;
 
   // Define a submit handler.
-  async function onSubmit(values: z.infer<typeof PatientFormSchema>) {
+  const onSubmit = async (values: z.infer<typeof PatientFormSchema>) => {
     const { identificationDocument } = values;
 
     // Create a new FormData object to hold the file data
@@ -61,17 +61,20 @@ const RegisterForm = ({ user }: { user: User }) => {
         // Convert string value into date.
         // By converting it to a Date object, we ensure that the data is in a suitable format for database storage
         birthDate: new Date(values.birthDate),
-        identificationDocument: documentFormData,
+        identificationDocument: values.identificationDocument
+          ? documentFormData
+          : undefined,
       };
-
+      console.log('patientData >>> ', patientData);
       // Store patient in DB
-      const patient = await registerPatient(patientData);
+      const newPatient = await registerPatient(patientData);
+      console.log('newPatient >>> ', newPatient);
       // Navigate user to book appointments page
-      if (patient) router.push(`/patients/${user.$id}/new-appointment`);
+      if (newPatient) router.push(`/patients/${user.$id}/new-appointment`);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
-  }
+  };
 
   return (
     <Form {...form}>
