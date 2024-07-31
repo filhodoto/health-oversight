@@ -85,14 +85,12 @@ export const registerPatient = async ({
   ...patient
 }: RegisterUserParams): Promise<RegisterUserParams | undefined> => {
   try {
-    // Upload file to appwrite storage
+    // Variable where we will store uploaded file
     let file;
 
     // 1. If user passed identification document, we need to store it in Appwrite storage
     // NOTE:: We do this before we create patient because when we create a patient we need to get the image, which means it needs to exist in our storage when we try to get
     if (identificationDocument) {
-      console.log('identificationDocument >>> ', identificationDocument);
-
       // Get the Blob object from the identificationDocument
       const blob = identificationDocument?.get('blobFile');
 
@@ -120,6 +118,7 @@ export const registerPatient = async ({
        * See more here: https://appwrite.io/docs/references/cloud/client-web/storage#createFile
        */
       file = await storage.createFile(BUCKET_ID, ID.unique(), inputFile);
+      console.log('file >>> ', file);
     }
 
     // 2. Create new patient document
