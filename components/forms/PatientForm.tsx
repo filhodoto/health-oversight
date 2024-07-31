@@ -10,8 +10,9 @@ import CustomFormField, {
   FormFieldTypes,
 } from './CustomFormField';
 import SubmitBtn from './SubmitBtn';
-import { userFormSchema } from '@/lib/zodValidations';
+import { UserFormSchema } from '@/lib/zodValidations';
 import { createUser } from '@/lib/actions/patients';
+import { ICONS_URL } from '@/constants';
 
 const defaultFormValues = {
   name: '',
@@ -26,13 +27,13 @@ const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
     label: 'Full Name',
     placeholder: 'John Doe',
     description: 'This is the description for name',
-    icon: { src: 'assets/icons/user.svg', alt: 'user' },
+    icon: { src: `${ICONS_URL}/user.svg`, alt: 'user' },
   },
   {
     name: 'email',
     label: 'Email',
     placeholder: 'example@gmail.com',
-    icon: { src: 'assets/icons/email.svg', alt: 'email' },
+    icon: { src: `${ICONS_URL}/email.svg`, alt: 'email' },
   },
   {
     name: 'phone',
@@ -42,12 +43,13 @@ const formFields: Omit<CustomFormFieldProps, 'control'>[] = [
   },
 ];
 
+/* This form is used to Authenticate the User, but not to register it */
 const PatientForm = () => {
   const router = useRouter();
 
   // Define form.
-  const form = useForm<z.infer<typeof userFormSchema>>({
-    resolver: zodResolver(userFormSchema),
+  const form = useForm<z.infer<typeof UserFormSchema>>({
+    resolver: zodResolver(UserFormSchema),
     defaultValues: defaultFormValues,
   });
 
@@ -56,12 +58,12 @@ const PatientForm = () => {
   } = form;
 
   // Define a submit handler.
-  async function onSubmit(values: z.infer<typeof userFormSchema>) {
+  async function onSubmit(values: z.infer<typeof UserFormSchema>) {
     try {
       // Store user in DB
       const newUser = await createUser(values);
-      // Pass user values via router
-      // if (newUser) router.push(`/patients/${newUser.$id}/register`);
+      // Pass user values via router and navigate user
+      if (newUser) router.push(`/patients/${newUser.$id}/register`);
     } catch (error) {
       console.log(error);
     }

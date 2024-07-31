@@ -7,6 +7,8 @@
  * - Adding types for external libraries that lack type definitions
  * - Overriding default types
  * "*.d.ts files are used to provide typescript type information about a module that's written in JavaScript,"
+ *
+ * NOTE:: By declaring interfaces with "declare interface ..." we don't need to import them in our files
  */
 
 declare type SearchParamProps = {
@@ -14,7 +16,10 @@ declare type SearchParamProps = {
   searchParams: { [key: string]: string | string[] | undefined };
 };
 
-declare type Gender = 'Male' | 'Female' | 'Other';
+// NOTE:: These should come from constants. But if we import constants, all declarations stop working without import.
+// So we would need to import all these interfaces in the files they are called
+declare type Gender = 'male' | 'female' | 'other';
+
 declare type Status = 'pending' | 'scheduled' | 'cancelled';
 
 declare interface CreateUserParams {
@@ -22,6 +27,7 @@ declare interface CreateUserParams {
   email: string;
   phone: string;
 }
+// Add id key created by Appwrite when we add user to database
 declare interface User extends CreateUserParams {
   $id: string;
 }
@@ -37,12 +43,12 @@ declare interface RegisterUserParams extends CreateUserParams {
   primaryPhysician: string;
   insuranceProvider: string;
   insurancePolicyNumber: string;
-  allergies: string | undefined;
-  currentMedication: string | undefined;
-  familyMedicalHistory: string | undefined;
-  pastMedicalHistory: string | undefined;
-  identificationType: string | undefined;
-  identificationNumber: string | undefined;
+  allergies?: string;
+  currentMedication?: string;
+  familyMedicalHistory?: string;
+  pastMedicalHistory?: string;
+  identificationType?: string;
+  identificationNumber?: string;
   identificationDocument: FormData | undefined;
   privacyConsent: boolean;
 }
