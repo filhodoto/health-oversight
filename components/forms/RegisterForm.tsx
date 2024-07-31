@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
-import { Form, FormControl } from '@/components/ui/form';
+import { Form } from '@/components/ui/form';
 import { z } from 'zod';
 
 import SubmitBtn from './SubmitBtn';

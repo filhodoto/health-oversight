@@ -200,10 +200,10 @@ const CustomFormField = ({
         <FormItem className={`flex-1 ${className ?? ''}`}>
           {/* Make sure we only show label for all inputs that are not type Checkbox */}
           {fieldType !== FormFieldTypes.CHECKBOX && label && (
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className="shad-input-label">{label}</FormLabel>
           )}
           {renderField({ field, props: { fieldType, ...props } })}
-          <FormMessage />
+          <FormMessage className="shad-error" />
         </FormItem>
       )}
     />
