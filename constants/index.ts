@@ -4,21 +4,19 @@ export const APP_NAME = 'Health Oversight';
 export const ICONS_URL = '/assets/icons';
 export const IMAGES_URL = '/assets/images';
 
-export const MALE = 'Male';
-export const FEMALE = 'Female';
-export const OTHER = 'Other';
+// Need to be lower case to fit appwrite collection enums
+export const MALE = 'male';
+export const FEMALE = 'female';
+export const OTHER = 'other';
 
 export const GENDER_OPTIONS = [MALE, FEMALE, OTHER];
 
 export const PATIENT_FORM_DEFAULT_VALUES = {
-  // TODO:: Not sure if we need firstName and lastName here
-  firstName: '',
-  lastName: '',
   name: '',
   email: '',
   phone: '',
   birthDate: new Date(Date.now()),
-  gender: 'Male' as Gender,
+  gender: MALE as Gender,
   address: '',
   occupation: '',
   emergencyContactName: '',
