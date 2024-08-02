@@ -86,3 +86,7 @@ export function decryptKey(passkey: string) {
 export function isBlob(value: unknown): value is Blob {
   return value instanceof Blob;
 }
+
+export function capitalizeFirstLetter(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
