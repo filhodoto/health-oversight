@@ -141,3 +141,25 @@ export const registerPatient = async ({
     console.error('Error registering patient:', error);
   }
 };
+
+/**
+ * Get patient by id
+ *
+ * @param patientId {string} User creation details.
+ * @returns {User}
+ */
+export const getPatient = async (
+  patientId: string,
+): Promise<User | undefined> => {
+  try {
+    // Get patient information from patient collection
+    const patientsList = await databases.listDocuments(
+      DATABASE_ID,
+      PATIENT_CL_ID,
+      [Query.equal('userId', patientId)],
+    );
+    return parseStringify(patientsList.documents[0]);
+  } catch (error) {
+    console.error('Error getting patient:', error);
+  }
+};
