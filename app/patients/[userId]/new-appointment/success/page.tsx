@@ -1,12 +1,11 @@
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ICONS_URL, GIFS_URL, DOCTORS } from '@/constants';
+import { ICONS_URL, DOCTORS, LOTTIE_URL } from '@/constants';
 import { getAppointmentById } from '@/lib/actions/appointments';
 import { formatDateTime, getCopyRightText } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import React from 'react';
-import { string } from 'zod';
+import LottieAnimation from '@/components/LottieAnimation';
 
 const Success = async ({
   params: { userId },
@@ -38,7 +37,7 @@ const Success = async ({
     <div className="flex h-screen max-h-screen px-[5%]">
       <div className="success-img">
         <Link href="/">
-          <div className="mb-12 flex items-center">
+          <div className="mb-10 flex items-center">
             <Image
               src={`${ICONS_URL}/logo-icon.svg`}
               className="logo-icon"
@@ -50,12 +49,10 @@ const Success = async ({
           </div>
         </Link>
         <section className="flex flex-col items-center text-center">
-          <Image
-            src={`${GIFS_URL}/success.gif`}
-            height={300}
-            width={280}
-            alt="success"
-          />
+          <div className="mb-6 max-w-md">
+            <LottieAnimation src={`${LOTTIE_URL}/success_lottie.json`} />
+          </div>
+
           <h2 className="header mb-6 max-w-xl">
             Your <span className="text-primary-500">appointment request</span>{' '}
             has been successfully submitted!
