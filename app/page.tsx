@@ -10,13 +10,16 @@ const Home = () => {
       {/* TODO:: Add OTP verification | Passkey Modal */}
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[496px]">
-          <Image
-            src={`${ICONS_URL}/logo-full.svg`}
-            className="mb-12 h-10 w-fit"
-            height={1000}
-            width={1000}
-            alt="logo"
-          />
+          <div className="mb-12 flex items-center">
+            <Image
+              src={`${ICONS_URL}/logo-icon.svg`}
+              className="logo-icon"
+              height={24}
+              width={24}
+              alt="logo"
+            />
+            <p className="sub-header">Health Oversight</p>
+          </div>
           {/* Used to Authenticate the User, NOT to register it */}
           <PatientForm />
           <div className="text-14-regular mt-20 flex justify-between">

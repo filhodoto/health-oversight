@@ -68,6 +68,11 @@
     @apply hidden h-full object-cover md:block;
   }
 
+  .logo-icon {
+    /* Using translate to align the icon on the left */
+    @apply h-14 w-fit translate-x-[-6px];
+  }
+
   .copyright {
     @apply text-14-regular justify-items-end text-center text-dark-600 xl:text-left;
   }
