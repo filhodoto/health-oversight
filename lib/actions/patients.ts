@@ -77,8 +77,8 @@ export const getUser = async (userId: string): Promise<User | undefined> => {
 /**
  * Register patient
  *
- * @param userId {string} User creation details.
- * @returns {User}
+ * @param User {RegisterUserParams} User creation details.
+ * @returns {RegisterUserParams}
  */
 export const registerPatient = async ({
   identificationDocument,
