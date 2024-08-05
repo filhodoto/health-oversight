@@ -70,7 +70,7 @@ const RegisterForm = ({ user }: { user: User }) => {
       const newPatient = await registerPatient(patientData);
 
       // Navigate user to book appointments page
-      // if (newPatient) router.push(`/patients/${user.$id}/new-appointment`);
+      if (newPatient) router.push(`/patients/${user.$id}/new-appointment`);
     } catch (error) {
       console.error(error);
     }
