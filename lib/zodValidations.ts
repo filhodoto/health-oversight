@@ -126,6 +126,7 @@ export const CancelAppointmentSchema = z.object({
     .max(500, 'Reason must be at most 500 characters'),
 });
 
+// Get schema depending on type
 export function getAppointmentSchema(type: string) {
   switch (type) {
     case 'create':

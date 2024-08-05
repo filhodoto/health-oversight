@@ -108,6 +108,7 @@ const renderField = ({
               onChange={(date) => field.onChange(date)}
               showTimeSelect={showTimeSelect}
               timeInputLabel="Time:"
+              placeholderText={placeholder}
               {...(dateFormat && { dateFormat })}
             />
           </FormControl>
