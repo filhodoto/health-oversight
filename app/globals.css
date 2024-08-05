@@ -183,7 +183,7 @@
   /*  make a test SHADCN */
   /* =====  SHADCN OVERRIDES */
   .shad-primary-btn {
-    @apply bg-primary-default text-white !important;
+    @apply bg-primary-500 text-white !important;
   }
 
   .shad-danger-btn {

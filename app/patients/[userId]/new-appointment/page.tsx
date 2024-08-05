@@ -34,7 +34,7 @@ const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
         </div>
       </section>
       <Image
-        src={`${IMAGES_URL}/appointment-img.png`}
+        src={`${IMAGES_URL}/appointment-img.jpg`}
         className="side-img max-w-[390px] bg-bottom"
         height={1000}
         width={1000}

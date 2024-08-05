@@ -23,7 +23,7 @@ const Register = async ({ params: { userId } }: SearchParamProps) => {
         </div>
       </section>
       <Image
-        src={`${IMAGES_URL}/register-img.png`}
+        src={`${IMAGES_URL}/register-img.jpg`}
         className="side-img max-w-[390px]"
         height={1000}
         width={1000}
