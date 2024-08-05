@@ -70,7 +70,7 @@ const RegisterForm = ({ user }: { user: User }) => {
       const newPatient = await registerPatient(patientData);
 
       // Navigate user to book appointments page
-      // if (newPatient) router.push(`/patients/${user.$id}/new-appointment`);
+      if (newPatient) router.push(`/patients/${user.$id}/new-appointment`);
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +84,7 @@ const RegisterForm = ({ user }: { user: User }) => {
       >
         <section className="mb-12 space-y-4">
           <h1 className="header">
-            Welcome <span className="text-green-500">{user.name}</span>
+            Welcome <span className="text-primary-default">{user.name}</span>
           </h1>
           <p className="text-dark-700">
             Please fill the necessary information.

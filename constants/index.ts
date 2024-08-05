@@ -3,6 +3,7 @@ export const APP_NAME = 'Health Oversight';
 // URL shortcuts
 export const ICONS_URL = '/assets/icons';
 export const IMAGES_URL = '/assets/images';
+export const GIFS_URL = '/assets/gifs';
 
 // Need to be lower case to fit appwrite collection enums
 export const MALE = 'male';

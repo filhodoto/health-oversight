@@ -21,7 +21,7 @@ const Home = () => {
           <PatientForm />
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="justify">© 2024 {APP_NAME}</p>
-            <Link href="/?admin=true" className="text-green-500">
+            <Link href="/?admin=true" className="text-primary-default">
               Admin
             </Link>
           </div>

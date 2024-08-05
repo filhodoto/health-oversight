@@ -49,6 +49,10 @@ const config = {
           600: '#76828D',
           700: '#ABB8C4',
         },
+        primary: {
+          default: '#24AE7C',
+          dark: '#0D2A1F',
+        },
       },
       // Extend the default font family with custom fonts
       fontFamily: {
