@@ -10,19 +10,22 @@ import CustomFormField, {
 } from './CustomFormField';
 import { SelectItem } from '@/components/ui/select';
 import SubmitBtn from './SubmitBtn';
-import { UserFormSchema } from '@/lib/zodValidations';
+import { getAppointmentSchema } from '@/lib/zodValidations';
 import { DOCTORS, ICONS_URL } from '@/constants';
 import Image from 'next/image';
 import { groupFieldsInPairs } from './fields/PersonalFormFields';
 import { capitalizeFirstLetter } from '@/lib/utils';
+import { createAppointment as createAppointmentAction } from '@/lib/actions/appointments';
 
 const defaultFormValues = {
-  name: '',
-  email: '',
-  phone: '',
+  primaryPhysician: '',
+  schedule: new Date(),
+  reason: '',
+  note: '',
+  cancellationReason: '',
 };
 
-interface NewAppointmentFormProps {
+interface AppointmentFormProps {
   userId: string;
   patientId: string;
   type: 'create' | 'cancel' | 'schedule';
@@ -37,7 +40,7 @@ const appointmentFields = [
   },
   {
     fieldType: FormFieldTypes.TEXTAREA,
-    name: 'notes',
+    name: 'note',
     label: 'Additional comments/notes',
     placeholder: 'ex: Prefer afternoon appointments, if possible',
   },
@@ -52,16 +55,15 @@ const appointmentFields = [
 ];
 
 /* This form is used to Authenticate the User, but not to register it */
-const AppointmentForm = ({
-  userId,
-  patientId,
-  type,
-}: NewAppointmentFormProps) => {
-  // const router = useRouter();
+const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
+  const router = useRouter();
+
+  // Get form schema depending on which type of form it is ('create' | 'cancel' | 'schedule')
+  const schema = getAppointmentSchema(type);
 
   // Define form.
-  const form = useForm<z.infer<typeof UserFormSchema>>({
-    resolver: zodResolver(UserFormSchema),
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
     defaultValues: defaultFormValues,
   });
 
@@ -69,9 +71,58 @@ const AppointmentForm = ({
     formState: { isSubmitting },
   } = form;
 
+  // Create appointment logic
+  const createAppointment = async ({
+    values,
+    status,
+  }: {
+    values: z.infer<typeof schema>;
+    status: Status;
+  }) => {
+    // Create the appointment in database
+    const newAppointment = await createAppointmentAction({
+      ...values,
+      userId,
+      patient: patientId,
+      status,
+      schedule: new Date(values.schedule),
+      // We will always have reason here because of zod validation.
+      // However we need to use nullish coalescing operator for typescript since it still thinks this might be undefined
+      reason: values.reason ?? '',
+    });
+
+    // IF appointment is successfully created
+    if (newAppointment) {
+      // Reset form
+      form.reset();
+
+      // Navigate user to success page (this same page with type "success") and pass values we need in route
+      router.push(
+        `/patients/${userId}/new-appointment/success?appointmentId=${newAppointment.$id}`,
+      );
+    }
+  };
+
   // Define a submit handler.
-  async function onSubmit(values: z.infer<typeof UserFormSchema>) {
-    // Do something
+  async function onSubmit(values: z.infer<typeof schema>) {
+    // Defined statues of appointment based on type of form
+    const status: Status =
+      type === 'schedule'
+        ? 'scheduled'
+        : type === 'cancel'
+          ? 'cancelled'
+          : 'pending';
+
+    try {
+      // Make sure typescript knows we have patient id before running this logic
+      if (!patientId) throw new Error('patientId not provided');
+
+      if (type === 'create') {
+        await createAppointment({ values, status });
+      }
+    } catch (error) {
+      console.error(error || error.message);
+    }
   }
 
   return (
