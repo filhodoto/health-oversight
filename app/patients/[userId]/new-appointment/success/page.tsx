@@ -49,7 +49,7 @@ const Success = async ({
           </div>
         </Link>
         <section className="flex flex-col items-center text-center">
-          <div className="mb-6 max-w-md">
+          <div className="mb-6 max-w-xs md:max-w-md">
             <LottieAnimation src={`${LOTTIE_URL}/success_lottie.json`} />
           </div>
 
