@@ -1,6 +1,7 @@
 import AppointmentForm from '@/components/forms/AppointmentForm';
 import { APP_NAME, ICONS_URL, IMAGES_URL } from '@/constants';
 import { getPatient } from '@/lib/actions/patients';
+import { getCopyRightText } from '@/lib/utils';
 import Image from 'next/image';
 
 const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
@@ -29,7 +30,7 @@ const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
               type="create"
             />
           )}
-          <p className="copyright py-12">© 2024 {APP_NAME}</p>
+          <p className="copyright py-12">{getCopyRightText()}</p>
         </div>
       </section>
       <Image

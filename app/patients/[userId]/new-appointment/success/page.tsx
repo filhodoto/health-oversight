@@ -1,6 +1,7 @@
+import { Button } from '@/components/ui/button';
 import { ICONS_URL, GIFS_URL, DOCTORS } from '@/constants';
 import { getAppointmentById } from '@/lib/actions/appointments';
-import { formatDateTime } from '@/lib/utils';
+import { formatDateTime, getCopyRightText } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -88,6 +89,12 @@ const Success = async ({
             </div>
           </div>
         </section>
+        <Button className="shad-primary-btn" variant="outline" asChild>
+          <Link href={`/patients/${userId}/new-appointment`}>
+            New appointment
+          </Link>
+        </Button>
+        <p className="copyright py-12">{getCopyRightText()}</p>
       </div>
     </div>
   );

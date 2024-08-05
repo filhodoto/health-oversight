@@ -1,3 +1,4 @@
+import { APP_NAME } from '@/constants';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -89,4 +90,8 @@ export function isBlob(value: unknown): value is Blob {
 
 export function capitalizeFirstLetter(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function getCopyRightText(): string {
+  return `© ${new Date().getFullYear()} ${APP_NAME}`;
 }
