@@ -76,7 +76,7 @@ const Success = async ({
             )}
             <div className="flex">
               <Image
-                className="ml-2"
+                className="mr-2"
                 src={`${ICONS_URL}/calendar.svg`}
                 height={24}
                 width={24}
