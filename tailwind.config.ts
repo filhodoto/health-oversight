@@ -1,4 +1,5 @@
 import type { Config } from 'tailwindcss';
+import colors from 'tailwindcss/colors';
 
 const { fontFamily } = require('tailwindcss/defaultTheme');
 
@@ -42,17 +43,22 @@ const config = {
           200: '#E8E9E9',
         },
         dark: {
-          200: '#0D0F10',
-          300: '#131619',
-          400: '#1A1D21',
-          500: '#363A3D',
-          600: '#76828D',
-          700: '#ABB8C4',
+          200: colors.gray['900'],
+          300: colors.gray['800'],
+          400: colors.gray['700'],
+          500: colors.gray['600'],
+          600: colors.gray['500'],
+          700: colors.gray['400'],
         },
-        primary: {
-          default: '#24AE7C',
-          dark: '#0D2A1F',
-        },
+        // dark: {
+        //   200: '#0D0F10',
+        //   300: '#131619',
+        //   400: '#1A1D21',
+        //   500: '#363A3D',
+        //   600: '#76828D',
+        //   700: '#ABB8C4',
+        // },
+        primary: colors.sky,
       },
       // Extend the default font family with custom fonts
       fontFamily: {

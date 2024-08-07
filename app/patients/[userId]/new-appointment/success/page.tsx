@@ -1,12 +1,11 @@
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ICONS_URL, GIFS_URL, DOCTORS } from '@/constants';
+import { ICONS_URL, DOCTORS, LOTTIE_URL } from '@/constants';
 import { getAppointmentById } from '@/lib/actions/appointments';
 import { formatDateTime, getCopyRightText } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import React from 'react';
-import { string } from 'zod';
+import LottieAnimation from '@/components/LottieAnimation';
 
 const Success = async ({
   params: { userId },
@@ -38,24 +37,24 @@ const Success = async ({
     <div className="flex h-screen max-h-screen px-[5%]">
       <div className="success-img">
         <Link href="/">
-          <Image
-            src={`${ICONS_URL}/logo-full.svg`}
-            className="mb-12 h-10 w-fit"
-            height={1000}
-            width={1000}
-            alt="logo"
-          />
+          <div className="mb-10 flex items-center">
+            <Image
+              src={`${ICONS_URL}/logo-icon.svg`}
+              className="logo-icon"
+              height={24}
+              width={24}
+              alt="logo"
+            />
+            <p className="sub-header">Health Oversight</p>
+          </div>
         </Link>
         <section className="flex flex-col items-center text-center">
-          <Image
-            src={`${GIFS_URL}/success.gif`}
-            height={300}
-            width={280}
-            alt="success"
-          />
+          <div className="mb-6 max-w-xs md:max-w-md">
+            <LottieAnimation src={`${LOTTIE_URL}/success_lottie.json`} />
+          </div>
+
           <h2 className="header mb-6 max-w-xl">
-            Your{' '}
-            <span className="text-primary-default">appointment request</span>{' '}
+            Your <span className="text-primary-500">appointment request</span>{' '}
             has been successfully submitted!
           </h2>
           <p>We will be in touch shortly to confirm</p>
@@ -77,7 +76,7 @@ const Success = async ({
             )}
             <div className="flex">
               <Image
-                className="ml-2"
+                className="mr-2"
                 src={`${ICONS_URL}/calendar.svg`}
                 height={24}
                 width={24}

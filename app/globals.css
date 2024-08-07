@@ -68,6 +68,11 @@
     @apply hidden h-full object-cover md:block;
   }
 
+  .logo-icon {
+    /* Using translate to align the icon on the left */
+    @apply h-14 w-fit translate-x-[-6px];
+  }
+
   .copyright {
     @apply text-14-regular justify-items-end text-center text-dark-600 xl:text-left;
   }
@@ -183,7 +188,7 @@
   /*  make a test SHADCN */
   /* =====  SHADCN OVERRIDES */
   .shad-primary-btn {
-    @apply bg-primary-default text-white !important;
+    @apply bg-primary-500 text-white !important;
   }
 
   .shad-danger-btn {
@@ -290,9 +295,7 @@
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker-time__header {
-  background-color: #1a1d21 !important;
-  border-color: #363a3d !important;
-  color: #abb8c4 !important;
+  @apply !border-dark-400 !bg-dark-400 !text-dark-700;
 }
 
 .react-datepicker__current-month,
@@ -302,33 +305,32 @@
 }
 
 .react-datepicker__triangle {
-  fill: #1a1d21 !important;
-  color: #1a1d21 !important;
-  stroke: #1a1d21 !important;
+  @apply !border-dark-400 !fill-dark-400 !stroke-dark-400;
 }
 
 .react-datepicker__time-list-item:hover {
-  background-color: #363a3d !important;
+  @apply !bg-dark-500;
 }
 
 .react-datepicker__input-container input {
-  background-color: #1a1d21 !important;
+  @apply !bg-dark-400;
   width: 100%;
   outline: none;
 }
 
 .react-datepicker__day--selected {
-  background-color: #24ae7c !important;
+  @apply !bg-primary-500;
+
   color: #ffffff !important;
   border-radius: 4px;
 }
 
 .react-datepicker__time-list-item--selected {
-  background-color: #24ae7c !important;
+  @apply !bg-primary-500;
 }
 
 .react-datepicker__time-container {
-  border-left: 1px solid #363a3d !important;
+  @apply !border-l-dark-500;
 }
 
 .react-datepicker__time-list-item {
@@ -338,13 +340,13 @@
 
 /* =====  REACT PHONE NUMBER INPUT OVERRIDES */
 .PhoneInputInput {
+  @apply bg-dark-400;
   outline: none;
   margin-left: 4px;
-  background: #1a1d21;
   font-size: 14px;
   font-weight: 500;
 }
 
 .PhoneInputInput::placeholder {
-  color: #1a1d21;
+  @apply text-dark-400;
 }
