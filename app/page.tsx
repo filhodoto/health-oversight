@@ -3,11 +3,16 @@ import React from 'react';
 import PatientForm from '@/components/forms/PatientForm';
 import Link from 'next/link';
 import { APP_NAME, ICONS_URL, IMAGES_URL } from '@/constants';
+import PasskeyModal from '@/components/PasskeyModal';
 
-const Home = () => {
+const Home = ({ searchParams }: SearchParamProps) => {
+  // Check if it's admin navigation by checking "/?admin=true" in url
+  const isAdmin = searchParams.admin === 'true';
+
   return (
     <div className="flex h-screen max-h-screen">
-      {/* TODO:: Add OTP verification | Passkey Modal */}
+      {/* If it's a navigation to admin, show Passkey Modal*/}
+      {isAdmin && <PasskeyModal />}
       <section className="remove-scrollbar container my-auto">
         <div className="sub-container max-w-[496px]">
           <div className="mb-12 flex items-center">

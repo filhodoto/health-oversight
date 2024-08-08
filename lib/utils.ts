@@ -1,6 +1,7 @@
 import { APP_NAME } from '@/constants';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import crypto from 'crypto';
 
 // Combines Tailwind classes and clsx functionality
 export function cn(...inputs: ClassValue[]) {
@@ -73,15 +74,51 @@ export const formatDateTime = (dateString: Date | string) => {
   };
 };
 
-// Simple Base64 encoding for key encryption (not secure for sensitive data)
-export function encryptKey(passkey: string) {
-  return btoa(passkey);
-}
+// Simple AES-256-CBC encryption algorithm for key encryption with the provided key
+// * NOTE:: For production we should use token authentication. Storing the encryption key, IV, and tag in local storage is highly insecure
+export const encryptKey = (passkey: string) => {
+  // Generate a random initialization vector (IV)
+  const iv = crypto.randomBytes(16);
+  const key = crypto.randomBytes(32);
 
-// Simple Base64 decoding for key decryption
-export function decryptKey(passkey: string) {
-  return atob(passkey);
-}
+  // Create a cipher using AES-256-CBC mode
+  //* NOTE:: Although simple strings work, Buffers are the correct data type for cryptographic operations in Node.js
+  const cipher = crypto.createCipheriv(
+    'aes-256-cbc',
+    Buffer.from(key),
+    Buffer.from(iv),
+  );
+
+  // Encrypt the data
+  let encryptedData = cipher.update(passkey, 'utf8', 'hex');
+  encryptedData += cipher.final('hex');
+
+  // Return encrypted data and the key and iv
+  return { encryptedData, key, iv };
+};
+
+export const decryptKey = ({
+  encryptedData,
+  key,
+  iv,
+}: {
+  encryptedData: string;
+  key: string;
+  iv: string;
+}) => {
+  // Create a decipher using AES-256-CBC mode
+  const decipher = crypto.createDecipheriv(
+    'aes-256-cbc',
+    Buffer.from(key),
+    Buffer.from(iv),
+  );
+
+  // Decrypt the data
+  let decryptedData = decipher.update(encryptedData, 'hex', 'utf8');
+  decryptedData += decipher.final('utf8');
+
+  return decryptedData;
+};
 
 // Helper function to know if value is Blob type
 export function isBlob(value: unknown): value is Blob {
