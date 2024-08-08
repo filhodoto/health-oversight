@@ -14,6 +14,10 @@ const fontSans = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   title: APP_NAME,
   description: 'An healthcare management system tailored for your needs',
+  // Set favicon
+  icons: {
+    icon: '/assets/icons/logo-icon.svg',
+  },
 };
 
 export default function RootLayout({
