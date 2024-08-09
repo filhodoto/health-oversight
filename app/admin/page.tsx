@@ -1,14 +1,16 @@
-import Header from '@/components/Header';
-import StatCard from '@/components/StatCard';
+import Header from '@/components/admin/Header';
 import React from 'react';
-import { ICONS_URL } from '@/constants';
+import { ICONS_URL, STATUS_ICON } from '@/constants';
+import { getRecentAppointments } from '@/lib/actions/appointments';
+import AdminStats from '@/components/admin/AdminStats';
 
-const Admin = () => {
+const Admin = async () => {
+  const appointmentsData = await getRecentAppointments();
+
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
-      {/* <main className="mx-auto flex max-w-7xl flex-col space-y-14 border-2 border-yellow-300"> */}
-      <main className="admin-main border-2 border-yellow-300">
+      <main className="admin-main">
         <section className="w-full space-y-4">
           <h1 className="header">Welcome</h1>
           <p className="text-dark-700">
@@ -18,26 +20,9 @@ const Admin = () => {
         <section className="w-full space-y-4">
           <p className="text-dark-700">Admin stats</p>
         </section>
-        <section className="admin-stat">
-          <StatCard
-            type="appointments"
-            icon={`${ICONS_URL}/appointments.svg`}
-            count={33}
-            label="Total number of  scheduled appointments"
-          />
-          <StatCard
-            type="pending"
-            icon={`${ICONS_URL}/pending.svg`}
-            count={33}
-            label="Total number of  scheduled appointments"
-          />
-          <StatCard
-            type="cancelled"
-            icon={`${ICONS_URL}/cancelled.svg`}
-            count={33}
-            label="Total number of  scheduled appointments"
-          />
-        </section>
+        {appointmentsData && (
+          <AdminStats appointmentStatus={appointmentsData.counts} />
+        )}
       </main>
     </div>
   );

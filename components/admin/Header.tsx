@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <header className="admin-header border-2">
+    <header className="admin-header">
       <div className="admin-header-wrapper">
         {/* Logo */}
         <Link href="/" className="flex items-center">
