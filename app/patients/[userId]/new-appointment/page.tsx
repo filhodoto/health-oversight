@@ -1,5 +1,5 @@
 import AppointmentForm from '@/components/forms/AppointmentForm';
-import { APP_NAME, ICONS_URL, IMAGES_URL } from '@/constants';
+import { ICONS_URL, IMAGES_URL } from '@/constants';
 import { getPatient } from '@/lib/actions/patients';
 import { getCopyRightText } from '@/lib/utils';
 import Image from 'next/image';

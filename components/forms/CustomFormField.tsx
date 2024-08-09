@@ -49,6 +49,7 @@ export interface CustomFormFieldProps {
   dateFormat?: string;
   showTimeSelect?: boolean;
   children?: React.ReactNode;
+  // eslint-disable-next-line no-unused-vars
   renderSkeleton?: (field: any) => React.ReactNode; // Use this to show a loading state for example
   className?: string;
 }

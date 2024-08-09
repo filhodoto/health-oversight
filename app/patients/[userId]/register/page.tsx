@@ -1,5 +1,5 @@
 import RegisterForm from '@/components/forms/RegisterForm';
-import { APP_NAME, ICONS_URL, IMAGES_URL } from '@/constants';
+import { ICONS_URL, IMAGES_URL } from '@/constants';
 import { getUser } from '@/lib/actions/patients';
 import { getCopyRightText } from '@/lib/utils';
 import Image from 'next/image';

@@ -1,5 +1,4 @@
 import { FEMALE, OTHER, MALE } from '@/constants';
-import { Mali } from 'next/font/google';
 import z from 'zod';
 
 /* Set common validation types here so we don't need to repeat ourselves. Keep it DRY */

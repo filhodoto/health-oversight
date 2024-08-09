@@ -6,7 +6,13 @@
   ],
   "plugins": ["prettier"], // Use the Prettier plugin to format code according to Prettier rules
   "rules": {
-    "prettier/prettier": "error" // Treat Prettier style errors as ESLint errors
+    "prettier/prettier": "error", // Treat Prettier style errors as ESLint errors
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "^[A-Z_]+$" // Ignore variables starting with uppercase letters, Like Const and Enums
+      }
+    ]
   },
   "ignorePatterns": [
     "components/ui/**/*" // Ignore all files from ShadCN ui

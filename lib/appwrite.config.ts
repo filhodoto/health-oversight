@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as sdk from 'node-appwrite';
 
 /*

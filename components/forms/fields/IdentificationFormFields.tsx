@@ -1,16 +1,7 @@
-import {
-  DOCTORS,
-  GENDER_OPTIONS,
-  ICONS_URL,
-  IDENTIFICATION_TYPES,
-} from '@/constants';
-import CustomFormField, {
-  CustomFormFieldProps,
-  FormFieldTypes,
-} from '../CustomFormField';
+import { IDENTIFICATION_TYPES } from '@/constants';
+import CustomFormField, { FormFieldTypes } from '../CustomFormField';
 import { Control } from 'react-hook-form';
 import { SelectItem } from '@/components/ui/select';
-import Image from 'next/image';
 import { FormControl } from '@/components/ui/form';
 import FileUploader from '../FileUploader';
 

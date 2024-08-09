@@ -1,4 +1,4 @@
-import { DOCTORS, GENDER_OPTIONS, ICONS_URL } from '@/constants';
+import { DOCTORS } from '@/constants';
 import CustomFormField, {
   CustomFormFieldProps,
   FormFieldTypes,

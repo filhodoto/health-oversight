@@ -6,6 +6,7 @@ import { useDropzone } from 'react-dropzone';
 
 interface FileUploaderProps {
   files: File[];
+  // eslint-disable-next-line no-unused-vars
   onChange: (files: File[]) => void;
 }
 
@@ -18,7 +19,7 @@ const FileUploader = ({ files, onChange }: FileUploaderProps) => {
     [onChange],
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
     <div className="file-upload" {...getRootProps()}>

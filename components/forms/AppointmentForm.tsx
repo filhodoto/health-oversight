@@ -4,14 +4,11 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { Form } from '@/components/ui/form';
 import { z } from 'zod';
-import CustomFormField, {
-  CustomFormFieldProps,
-  FormFieldTypes,
-} from './CustomFormField';
+import CustomFormField, { FormFieldTypes } from './CustomFormField';
 import { SelectItem } from '@/components/ui/select';
 import SubmitBtn from './SubmitBtn';
 import { getAppointmentSchema } from '@/lib/zodValidations';
-import { DOCTORS, ICONS_URL } from '@/constants';
+import { DOCTORS } from '@/constants';
 import Image from 'next/image';
 import { groupFieldsInPairs } from './fields/PersonalFormFields';
 import { capitalizeFirstLetter } from '@/lib/utils';
