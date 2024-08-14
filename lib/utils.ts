@@ -132,3 +132,11 @@ export function capitalizeFirstLetter(string: string): string {
 export function getCopyRightText(): string {
   return `© ${new Date().getFullYear()} ${APP_NAME}`;
 }
+
+export function getColorByStatus(status: Status): string {
+  return status === 'scheduled'
+    ? 'green'
+    : status === 'pending'
+      ? 'blue'
+      : 'red';
+}

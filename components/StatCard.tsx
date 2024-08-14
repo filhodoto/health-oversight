@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import clsx from 'clsx';
+import { getColorByStatus } from '@/lib/utils';
 
 interface StatCardProps {
   type: 'scheduled' | 'pending' | 'cancelled';
@@ -9,14 +10,10 @@ interface StatCardProps {
 }
 
 const StatCard = ({ icon, count, label, type }: StatCardProps) => {
+  // If type scheduled return yellow because "getColorByStatus" would return green.
+  const color = type === 'scheduled' ? 'yellow' : getColorByStatus(type);
   return (
-    <div
-      className={clsx('stat-card', {
-        'border-yellow-300': type === 'scheduled',
-        'border-blue-500': type === 'pending',
-        'border-red-800': type === 'cancelled',
-      })}
-    >
+    <div className={clsx('stat-card', `border-${color}-500`)}>
       <div className="flex items-center gap-4">
         <Image
           src={icon}
