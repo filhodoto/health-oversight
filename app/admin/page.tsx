@@ -3,10 +3,11 @@ import React from 'react';
 import { ICONS_URL, STATUS_ICON } from '@/constants';
 import { getRecentAppointments } from '@/lib/actions/appointments';
 import AdminStats from '@/components/admin/AdminStats';
+import DataTable from '@/components/admin/DataTable';
+import { columns } from '@/components/admin/columns';
 
 const Admin = async () => {
   const appointmentsData = await getRecentAppointments();
-
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <Header />
@@ -21,7 +22,10 @@ const Admin = async () => {
           <p className="text-dark-700">Admin stats</p>
         </section>
         {appointmentsData && (
-          <AdminStats appointmentStatus={appointmentsData.counts} />
+          <>
+            <AdminStats appointmentStatus={appointmentsData.counts} />
+            <DataTable columns={columns} data={appointmentsData.documents} />
+          </>
         )}
       </main>
     </div>
