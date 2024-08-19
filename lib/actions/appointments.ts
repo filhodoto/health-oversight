@@ -59,7 +59,7 @@ export const getAppointmentById = async (
 export const getRecentAppointments = async (): Promise<
   | {
       totalCount: number;
-      documents: Document[];
+      documents: Appointment[];
       counts: Record<Status, number>;
     }
   | undefined
