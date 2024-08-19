@@ -6,6 +6,7 @@ import StatusBadge from '../StatusBadge';
 import { formatDateTime } from '@/lib/utils';
 import { Appointment } from '@/types/appwrite.types';
 import Image from 'next/image';
+import AppointmentModal from '../AppointmentModal';
 
 /* NOTE:
  * Columns are where you define the core of what your table will look like.
@@ -67,7 +68,12 @@ export const columns: ColumnDef<Appointment>[] = [
     id: 'actions',
     header: () => <div className="actions"> Actions</div>,
     cell: () => {
-      return <div className="flex gap-1">Appointment Modal</div>;
+      return (
+        <>
+          <AppointmentModal type="schedule" />
+          <AppointmentModal type="cancel" />
+        </>
+      );
     },
   },
 ];
