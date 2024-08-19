@@ -6,6 +6,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+
 import {
   Tooltip,
   TooltipContent,
@@ -14,46 +15,52 @@ import {
 } from '@/components/ui/tooltip';
 
 import { useState } from 'react';
-import { Button } from './ui/button';
 import { CalendarCheck, Trash2 } from 'lucide-react';
 
 interface AppointmentModalProps {
   type: 'schedule' | 'cancel';
 }
 
-const AppointmentTooltip = ({ isSchedule }: { isSchedule: boolean }) => (
-  <TooltipProvider>
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          // variant="outline"
-          size="icon"
-          className="border-green-500 p-0 text-green-500"
-        >
-          {isSchedule ? <CalendarCheck /> : <Trash2 />}
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>{isSchedule ? 'Schedule appointment' : 'Delete appointment'}</p>
-      </TooltipContent>
-    </Tooltip>
-  </TooltipProvider>
-);
+const AppointmentTooltip = ({ isSchedule }: { isSchedule: boolean }) => {
+  const color = isSchedule ? 'text-green-500' : 'text-red-400';
+
+  const iconStyles = `${color} h-[18px] w-[18px]`;
+
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          {isSchedule ? (
+            <CalendarCheck className={iconStyles} />
+          ) : (
+            <Trash2 className={iconStyles} />
+          )}
+        </TooltipTrigger>
+        <TooltipContent className="border-dark-300 bg-dark-400">
+          <p>{isSchedule ? 'Schedule appointment' : 'Delete appointment'}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
+};
 
 const AppointmentModal = ({ type }: AppointmentModalProps) => {
   const [open, setOpen] = useState(false);
   const isSchedule = type === 'schedule';
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild className="border-2">
-        <AppointmentTooltip isSchedule={isSchedule} />
+      <DialogTrigger asChild>
+        {/* Wrap trigger in span so the span becomes trigger of the click instead fo tooltip provider */}
+        <span className="flex cursor-pointer">
+          <AppointmentTooltip isSchedule={isSchedule} />
+        </span>
       </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Are you absolutely sure?</DialogTitle>
+      <DialogContent className="shad-dialog sm:max-w-md">
+        <DialogHeader className="mb-4 space-y-3">
+          <DialogTitle className="capitalize">{type} Appointment</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            Please fill in the following details to {type} appointment.
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

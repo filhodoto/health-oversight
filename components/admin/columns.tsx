@@ -66,13 +66,13 @@ export const columns: ColumnDef<Appointment>[] = [
   },
   {
     id: 'actions',
-    header: () => <div className="actions"> Actions</div>,
+    header: () => <div className="actions">Actions</div>,
     cell: () => {
       return (
-        <>
+        <div className="flex items-center gap-3">
           <AppointmentModal type="schedule" />
           <AppointmentModal type="cancel" />
-        </>
+        </div>
       );
     },
   },
