@@ -208,20 +208,25 @@ const AppointmentForm = ({
           <>
             <div className="flex flex-col gap-6 xl:flex-row">
               {/* Reason */}
+              {/* TODO::Don't show input to admin if user didn't feel value. USE getValues */}
               <CustomFormField
                 fieldType={FormFieldTypes.TEXTAREA}
                 control={form.control}
                 name="reason"
                 label="Reason for appointment"
                 placeholder="ex: Annual monthly check-up"
+                disabled={type === 'schedule'}
               />
               {/* Additional Notes */}
+              {/*TODO:: Don't show input to admin if user didn't feel value. USE getValues  */}
+
               <CustomFormField
                 fieldType={FormFieldTypes.TEXTAREA}
                 control={form.control}
                 name="note"
                 label="Additional comments/notes"
                 placeholder="ex: Prefer afternoon appointments, if possible"
+                disabled={type === 'schedule'}
               />
             </div>
             {/* Appointment date */}
