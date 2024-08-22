@@ -10,7 +10,7 @@ import SubmitBtn from './SubmitBtn';
 import { getAppointmentSchema } from '@/lib/zodValidations';
 import { DOCTORS } from '@/constants';
 import Image from 'next/image';
-import { capitalizeFirstLetter, groupFieldsInPairs } from '@/lib/utils';
+import { capitalizeFirstLetter } from '@/lib/utils';
 import {
   createAppointment as createAppointmentAction,
   updateAppointment as updateAppointmentAction,
@@ -23,31 +23,8 @@ interface AppointmentFormProps {
   patientId: string;
   type: 'create' | 'cancel' | 'schedule';
   appointment?: Appointment;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
 }
-
-const appointmentFields = [
-  {
-    fieldType: FormFieldTypes.TEXTAREA,
-    name: 'reason',
-    label: 'Reason for appointment',
-    placeholder: 'ex: Annual monthly check-up',
-  },
-  {
-    fieldType: FormFieldTypes.TEXTAREA,
-    name: 'note',
-    label: 'Additional comments/notes',
-    placeholder: 'ex: Prefer afternoon appointments, if possible',
-  },
-  {
-    name: 'schedule',
-    fieldType: FormFieldTypes.DATE_PICKER,
-    label: 'Expected appointment date',
-    placeholder: 'Select your appointment date',
-    dateFormat: 'dd/MM/yyyy - h:mm aa',
-    showTimeSelect: true,
-  },
-];
 
 const getDefaultFormValues = (appointment?: Appointment) => ({
   primaryPhysician: appointment?.primaryPhysician ?? '',
@@ -228,18 +205,36 @@ const AppointmentForm = ({
             placeholder="Enter reason for cancellation"
           />
         ) : (
-          // Create div for each pair of elements in our medicalFormFields object
-          groupFieldsInPairs(appointmentFields).map((pair, index) => (
-            <div key={index} className="flex flex-col gap-6 xl:flex-row">
-              {pair.map((field) => (
-                <CustomFormField
-                  key={field.name}
-                  control={form.control}
-                  {...field}
-                />
-              ))}
+          <>
+            <div className="flex flex-col gap-6 xl:flex-row">
+              {/* Reason */}
+              <CustomFormField
+                fieldType={FormFieldTypes.TEXTAREA}
+                control={form.control}
+                name="reason"
+                label="Reason for appointment"
+                placeholder="ex: Annual monthly check-up"
+              />
+              {/* Additional Notes */}
+              <CustomFormField
+                fieldType={FormFieldTypes.TEXTAREA}
+                control={form.control}
+                name="note"
+                label="Additional comments/notes"
+                placeholder="ex: Prefer afternoon appointments, if possible"
+              />
             </div>
-          ))
+            {/* Appointment date */}
+            <CustomFormField
+              fieldType={FormFieldTypes.DATE_PICKER}
+              control={form.control}
+              name="schedule"
+              label="Select your appointment date"
+              placeholder="ex: Prefer afternoon appointments, if possible"
+              dateFormat="dd/MM/yyyy - h:mm aa"
+              showTimeSelect={true}
+            />
+          </>
         )}
 
         <SubmitBtn
