@@ -82,7 +82,7 @@ const AppointmentForm = ({
     formState: { isSubmitting },
   } = form;
 
-  const isDeleteForm = type === 'cancel';
+  const isCancelForm = type === 'cancel';
 
   // Create appointment logic
   const createAppointment = async ({
@@ -216,7 +216,7 @@ const AppointmentForm = ({
         </CustomFormField>
 
         {/* If form is type cancel show field for cancelation reason. If not, show scheduling inputs */}
-        {isDeleteForm ? (
+        {isCancelForm ? (
           <CustomFormField
             fieldType={FormFieldTypes.TEXTAREA}
             control={form.control}
@@ -241,7 +241,7 @@ const AppointmentForm = ({
 
         <SubmitBtn
           isLoading={isSubmitting}
-          {...(isDeleteForm && {
+          {...(isCancelForm && {
             className: 'shad-danger-btn',
           })}
         >
