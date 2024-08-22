@@ -152,7 +152,9 @@ const AppointmentForm = ({
   };
 
   // Define a submit handler.
-  async function onSubmit(values: z.infer<typeof AppointmentFormValidation>) {
+  const onSubmit = async (
+    values: z.infer<typeof AppointmentFormValidation>,
+  ) => {
     // Defined statues of appointment based on type of form
     const status: Status =
       type === 'schedule'
@@ -175,7 +177,7 @@ const AppointmentForm = ({
     } catch (error) {
       console.error(error || error.message);
     }
-  }
+  };
 
   return (
     <Form {...form}>
@@ -197,6 +199,7 @@ const AppointmentForm = ({
           name="primaryPhysician"
           label="Primary Care Doctor"
           placeholder="Select a doctor"
+          disabled={isCancelForm}
         >
           {/* This will be shown as props.children inside our FormControl */}
           {DOCTORS.map((doctor) => (

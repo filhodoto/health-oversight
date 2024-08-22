@@ -79,7 +79,11 @@ const renderField = ({
     case FormFieldTypes.SELECT:
       return (
         <FormControl>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            onValueChange={field.onChange}
+            defaultValue={field.value}
+            disabled={disabled}
+          >
             <SelectTrigger className="shad-select-trigger">
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
