@@ -4,7 +4,7 @@ import CustomFormField, {
   FormFieldTypes,
 } from '../CustomFormField';
 import { Control } from 'react-hook-form';
-import { groupFieldsInPairs } from './PersonalFormFields';
+import { groupFieldsInPairs } from '@/lib/utils';
 import { SelectItem } from '@/components/ui/select';
 import Image from 'next/image';
 

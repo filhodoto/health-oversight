@@ -7,22 +7,7 @@ import { FormControl } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '../../ui/radio-group';
 import { Label } from '../../ui/label';
 import { Control } from 'react-hook-form';
-
-// Helper function to group the fields into pairs, so we can use it to prevent duplication
-// TODO:: This should be moved to a utils/helper file
-export const groupFieldsInPairs = (
-  fields: Omit<CustomFormFieldProps, 'control'>[],
-) => {
-  // Groups an array of fields into pairs of two.
-  // The last element might be a single element array if the total number of fields is odd.
-
-  const pairs = [];
-  for (let i = 0; i < fields.length; i += 2) {
-    // Slice the array into pairs of two, starting from index i
-    pairs.push(fields.slice(i, i + 2));
-  }
-  return pairs;
-};
+import { groupFieldsInPairs } from '@/lib/utils';
 
 const renderRadioGroupOptions = (options: string[]) => {
   return options.map((option, index) => {

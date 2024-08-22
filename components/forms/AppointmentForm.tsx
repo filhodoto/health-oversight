@@ -10,8 +10,7 @@ import SubmitBtn from './SubmitBtn';
 import { getAppointmentSchema } from '@/lib/zodValidations';
 import { DOCTORS } from '@/constants';
 import Image from 'next/image';
-import { groupFieldsInPairs } from './fields/PersonalFormFields';
-import { capitalizeFirstLetter } from '@/lib/utils';
+import { capitalizeFirstLetter, groupFieldsInPairs } from '@/lib/utils';
 import {
   createAppointment as createAppointmentAction,
   updateAppointment as updateAppointmentAction,

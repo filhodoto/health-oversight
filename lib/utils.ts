@@ -2,6 +2,7 @@ import { APP_NAME } from '@/constants';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import crypto from 'crypto';
+import { CustomFormFieldProps } from '@/components/forms/CustomFormField';
 
 // Combines Tailwind classes and clsx functionality
 export function cn(...inputs: ClassValue[]) {
@@ -140,3 +141,18 @@ export function getColorByStatus(status: Status): string {
       ? 'blue'
       : 'red';
 }
+
+// Helper function to group the fields into pairs, so we can use it to prevent duplication
+export const groupFieldsInPairs = (
+  fields: Omit<CustomFormFieldProps, 'control'>[],
+) => {
+  // Groups an array of fields into pairs of two.
+  // The last element might be a single element array if the total number of fields is odd.
+
+  const pairs = [];
+  for (let i = 0; i < fields.length; i += 2) {
+    // Slice the array into pairs of two, starting from index i
+    pairs.push(fields.slice(i, i + 2));
+  }
+  return pairs;
+};
