@@ -4,13 +4,14 @@ import { ID, Query } from 'node-appwrite';
 import { APPOINTMENT_CL_ID, DATABASE_ID, databases } from '../appwrite.config';
 import { parseStringify } from '../utils';
 import { Appointment } from '@/types/appwrite.types';
+import { revalidatePath } from 'next/cache';
 
 /**
  * Create a new appointment with the provided details.
  *
  * @param appointment {CreateAppointmentParams} User creation details.
  * @returns {Appointment}
- * See more in appwrite docs: https://appwrite.io/docs/references/cloud/server-nodejs/users#create
+ * See more in appwrite docs: https://appwrite.io/docs/references/cloud/server-nodejs/databases#createDocument
  */
 export const createAppointment = async (
   appointment: CreateAppointmentParams,
@@ -26,6 +27,41 @@ export const createAppointment = async (
     return parseStringify(newAppointment);
   } catch (error) {
     console.error('Error creating appointment:', error);
+  }
+};
+
+/**
+ * Update appointment with the provided details.
+ *
+ * @param appointment {UpdateAppointmentParams} User creation details.
+ * @returns {Appointment}
+ * See more in appwrite docs: https://appwrite.io/docs/references/cloud/server-nodejs/databases#updateDocument
+ */
+export const updateAppointment = async ({
+  appointmentId,
+  appointment,
+}: UpdateAppointmentParams): Promise<Appointment | undefined> => {
+  try {
+    // Update appointment document in database
+    const updatedAppointment = await databases.updateDocument(
+      DATABASE_ID,
+      APPOINTMENT_CL_ID,
+      appointmentId, // ID of appointment we will update
+      appointment, // Data to update
+    );
+
+    // IF no appointment found, throw error
+    if (!updatedAppointment) throw new Error('Appointment not found');
+
+    // TODO:: Send SMS confirmation
+
+    // Purge cached data in admin url, so changes are visible
+    // See more here: https://nextjs.org/docs/app/api-reference/functions/revalidatePath
+    revalidatePath('/admin');
+
+    return parseStringify(updatedAppointment);
+  } catch (error) {
+    console.error('Error updating appointment:', error);
   }
 };
 
