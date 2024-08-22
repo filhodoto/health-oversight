@@ -19,14 +19,6 @@ import {
 import { Appointment } from '@/types/appwrite.types';
 import { Dispatch, SetStateAction } from 'react';
 
-const defaultFormValues = {
-  primaryPhysician: '',
-  schedule: new Date(),
-  reason: '',
-  note: '',
-  cancellationReason: '',
-};
-
 interface AppointmentFormProps {
   userId: string;
   patientId: string;
@@ -36,14 +28,6 @@ interface AppointmentFormProps {
 }
 
 const appointmentFields = [
-  {
-    name: 'schedule',
-    fieldType: FormFieldTypes.DATE_PICKER,
-    label: 'Expected appointment date',
-    placeholder: 'Select your appointment date',
-    dateFormat: 'dd/MM/yyyy - h:mm aa',
-    showTimeSelect: true,
-  },
   {
     fieldType: FormFieldTypes.TEXTAREA,
     name: 'reason',
@@ -56,7 +40,25 @@ const appointmentFields = [
     label: 'Additional comments/notes',
     placeholder: 'ex: Prefer afternoon appointments, if possible',
   },
+  {
+    name: 'schedule',
+    fieldType: FormFieldTypes.DATE_PICKER,
+    label: 'Expected appointment date',
+    placeholder: 'Select your appointment date',
+    dateFormat: 'dd/MM/yyyy - h:mm aa',
+    showTimeSelect: true,
+  },
 ];
+
+const getDefaultFormValues = (appointment?: Appointment) => ({
+  primaryPhysician: appointment?.primaryPhysician ?? '',
+  schedule: appointment?.schedule
+    ? new Date(appointment?.schedule)
+    : new Date(),
+  reason: appointment?.reason ?? '',
+  note: appointment?.note ?? '',
+  cancellationReason: appointment?.cancellationReason ?? '',
+});
 
 /* This form is used to Authenticate the User, but not to register it */
 const AppointmentForm = ({
@@ -74,12 +76,14 @@ const AppointmentForm = ({
   // Define form.
   const form = useForm<z.infer<typeof AppointmentFormValidation>>({
     resolver: zodResolver(AppointmentFormValidation),
-    defaultValues: defaultFormValues,
+    defaultValues: getDefaultFormValues(appointment),
   });
 
   const {
     formState: { isSubmitting },
   } = form;
+
+  const isDeleteForm = type === 'cancel';
 
   // Create appointment logic
   const createAppointment = async ({
@@ -211,20 +215,9 @@ const AppointmentForm = ({
             </SelectItem>
           ))}
         </CustomFormField>
-        {/* Create div for each pair of elements in our medicalFormFields object */}
-        {groupFieldsInPairs(appointmentFields).map((pair, index) => (
-          <div key={index} className="flex flex-col gap-6 xl:flex-row">
-            {pair.map((field) => (
-              <CustomFormField
-                key={field.name}
-                control={form.control}
-                {...field}
-              />
-            ))}
-          </div>
-        ))}
 
-        {type === 'cancel' && (
+        {/* If form is type cancel show field for cancelation reason. If not, show scheduling inputs */}
+        {isDeleteForm ? (
           <CustomFormField
             fieldType={FormFieldTypes.TEXTAREA}
             control={form.control}
@@ -232,9 +225,27 @@ const AppointmentForm = ({
             label="Reason for Cancelation"
             placeholder="Enter reason for cancellation"
           />
+        ) : (
+          // Create div for each pair of elements in our medicalFormFields object
+          groupFieldsInPairs(appointmentFields).map((pair, index) => (
+            <div key={index} className="flex flex-col gap-6 xl:flex-row">
+              {pair.map((field) => (
+                <CustomFormField
+                  key={field.name}
+                  control={form.control}
+                  {...field}
+                />
+              ))}
+            </div>
+          ))
         )}
 
-        <SubmitBtn isLoading={isSubmitting}>
+        <SubmitBtn
+          isLoading={isSubmitting}
+          {...(isDeleteForm && {
+            className: 'shad-danger-btn',
+          })}
+        >
           {capitalizeFirstLetter(type)} Appointment
         </SubmitBtn>
       </form>
