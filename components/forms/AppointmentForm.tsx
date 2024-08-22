@@ -12,7 +12,12 @@ import { DOCTORS } from '@/constants';
 import Image from 'next/image';
 import { groupFieldsInPairs } from './fields/PersonalFormFields';
 import { capitalizeFirstLetter } from '@/lib/utils';
-import { createAppointment as createAppointmentAction } from '@/lib/actions/appointments';
+import {
+  createAppointment as createAppointmentAction,
+  updateAppointment as updateAppointmentAction,
+} from '@/lib/actions/appointments';
+import { Appointment } from '@/types/appwrite.types';
+import { Dispatch, SetStateAction } from 'react';
 
 const defaultFormValues = {
   primaryPhysician: '',
@@ -26,9 +31,19 @@ interface AppointmentFormProps {
   userId: string;
   patientId: string;
   type: 'create' | 'cancel' | 'schedule';
+  appointment?: Appointment;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const appointmentFields = [
+  {
+    name: 'schedule',
+    fieldType: FormFieldTypes.DATE_PICKER,
+    label: 'Expected appointment date',
+    placeholder: 'Select your appointment date',
+    dateFormat: 'dd/MM/yyyy - h:mm aa',
+    showTimeSelect: true,
+  },
   {
     fieldType: FormFieldTypes.TEXTAREA,
     name: 'reason',
@@ -41,26 +56,24 @@ const appointmentFields = [
     label: 'Additional comments/notes',
     placeholder: 'ex: Prefer afternoon appointments, if possible',
   },
-  {
-    name: 'schedule',
-    fieldType: FormFieldTypes.DATE_PICKER,
-    label: 'Expected appointment date',
-    placeholder: 'Select your appointment date',
-    dateFormat: 'dd/MM/yyyy - h:mm aa',
-    showTimeSelect: true,
-  },
 ];
 
 /* This form is used to Authenticate the User, but not to register it */
-const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
+const AppointmentForm = ({
+  userId,
+  patientId,
+  type = 'create',
+  appointment,
+  setOpen,
+}: AppointmentFormProps) => {
   const router = useRouter();
 
-  // Get form schema depending on which type of form it is ('create' | 'cancel' | 'schedule')
-  const schema = getAppointmentSchema(type);
+  // Get form AppointmentFormValidation depending on which type of form it is ('create' | 'cancel' | 'schedule')
+  const AppointmentFormValidation = getAppointmentSchema(type);
 
   // Define form.
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useForm<z.infer<typeof AppointmentFormValidation>>({
+    resolver: zodResolver(AppointmentFormValidation),
     defaultValues: defaultFormValues,
   });
 
@@ -73,7 +86,7 @@ const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
     values,
     status,
   }: {
-    values: z.infer<typeof schema>;
+    values: z.infer<typeof AppointmentFormValidation>;
     status: Status;
   }) => {
     // Create the appointment in database
@@ -100,8 +113,43 @@ const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
     }
   };
 
+  const updateAppointment = async ({
+    values,
+    status,
+  }: {
+    values: z.infer<typeof AppointmentFormValidation>;
+    status: Status;
+  }) => {
+    // TODO:: This formvalidation is not working
+    const { primaryPhysician, schedule, cancellationReason } = values;
+
+    // Make Typescript knows we have an appointment
+    if (!appointment || !appointment.$id)
+      throw new Error('No appointment found');
+
+    const updated = await updateAppointmentAction({
+      userId,
+      appointmentId: appointment?.$id,
+      appointment: {
+        primaryPhysician,
+        schedule: new Date(schedule),
+        status,
+        cancellationReason,
+      },
+      type,
+    });
+
+    if (updated) {
+      // Close Modal that shows this Form
+      setOpen && setOpen(false);
+
+      // Reset form
+      form.reset();
+    }
+  };
+
   // Define a submit handler.
-  async function onSubmit(values: z.infer<typeof schema>) {
+  async function onSubmit(values: z.infer<typeof AppointmentFormValidation>) {
     // Defined statues of appointment based on type of form
     const status: Status =
       type === 'schedule'
@@ -112,10 +160,14 @@ const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
 
     try {
       // Make sure typescript knows we have patient id before running this logic
-      if (!patientId) throw new Error('patientId not provided');
+      if (!patientId) throw new Error('patient id not provided');
 
+      // If form is being called to create an appointment
       if (type === 'create') {
         await createAppointment({ values, status });
+      } else {
+        // If not, it means it is an appointment o update
+        await updateAppointment({ values, status });
       }
     } catch (error) {
       console.error(error || error.message);
@@ -125,12 +177,16 @@ const AppointmentForm = ({ userId, patientId, type }: AppointmentFormProps) => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-8">
-        <section className="mb-12 space-y-4">
-          <h1 className="header">Welcome</h1>
-          <p className="text-dark-700">
-            Request a new appointment in 10 seconds
-          </p>
-        </section>
+        {/* Only show this text if Form is type create  */}
+        {type === 'create' && (
+          <section className="mb-12 space-y-4">
+            <h1 className="header">Welcome</h1>
+            <p className="text-dark-700">
+              Request a new appointment in 10 seconds
+            </p>
+          </section>
+        )}
+
         {/* Primary care doctor here because it needs to be full width */}
         <CustomFormField
           fieldType={FormFieldTypes.SELECT}

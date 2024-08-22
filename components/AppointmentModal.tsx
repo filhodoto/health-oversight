@@ -16,9 +16,14 @@ import {
 
 import { useState } from 'react';
 import { CalendarCheck, Trash2 } from 'lucide-react';
+import AppointmentForm from './forms/AppointmentForm';
+import { Appointment } from '@/types/appwrite.types';
 
 interface AppointmentModalProps {
   type: 'schedule' | 'cancel';
+  userId: string;
+  patientId: string;
+  appointment?: Appointment;
 }
 
 const AppointmentTooltip = ({ isSchedule }: { isSchedule: boolean }) => {
@@ -44,7 +49,12 @@ const AppointmentTooltip = ({ isSchedule }: { isSchedule: boolean }) => {
   );
 };
 
-const AppointmentModal = ({ type }: AppointmentModalProps) => {
+const AppointmentModal = ({
+  userId,
+  patientId,
+  type,
+  appointment,
+}: AppointmentModalProps) => {
   const [open, setOpen] = useState(false);
   const isSchedule = type === 'schedule';
 
@@ -63,6 +73,13 @@ const AppointmentModal = ({ type }: AppointmentModalProps) => {
             Please fill in the following details to {type} appointment.
           </DialogDescription>
         </DialogHeader>
+        <AppointmentForm
+          userId={userId}
+          patientId={patientId}
+          type={type}
+          appointment={appointment}
+          setOpen={setOpen}
+        />
       </DialogContent>
     </Dialog>
   );

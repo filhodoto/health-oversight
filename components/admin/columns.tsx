@@ -67,11 +67,18 @@ export const columns: ColumnDef<Appointment>[] = [
   {
     id: 'actions',
     header: () => <div className="actions">Actions</div>,
-    cell: () => {
+    cell: ({ row }) => {
+      const appointmentData = row.original;
+      // Shared data between modals
+      const sharedModalData = {
+        patientId: appointmentData.patient.$id,
+        userId: appointmentData.userId,
+        appointment: appointmentData,
+      };
       return (
         <div className="flex items-center gap-3">
-          <AppointmentModal type="schedule" />
-          <AppointmentModal type="cancel" />
+          <AppointmentModal {...sharedModalData} type="schedule" />
+          <AppointmentModal {...sharedModalData} type="cancel" />
         </div>
       );
     },
